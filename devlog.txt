@@ -7,3 +7,6 @@ Made breakdown of roles more thorough
 
 ngR -- 2018-10-16 23:44 
 We should attempt to maintain backwards compatibility between updates. We will attempt to do this by practicing semantic versioning (https://semver.org/). We will also set standards for our code to make it as easy as possible to work with as a team.
+
+ngR -- 2018-10-17 12:53
+Added design.pdf to repo
