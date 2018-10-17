@@ -1,3 +1,6 @@
 keriazisD -- 2018-10-16 13:19
 Began devlog
 
+liK -- 2018-10-16 23:40
+Modified component map to be more specific to our project
+Made breakdown of roles more thorough
