@@ -115,6 +115,9 @@ venv.bak/
 .Spotlight*
 .Trashes
 
-# Filenames with special characters
+# Filenames with Special Characters #
 **/*[\\/\:;*?!'"<>|$º•¶§∞¢£]*
+
+# Database Files #
+*.db
 
