@@ -118,6 +118,3 @@ venv.bak/
 # Filenames with Special Characters #
 **/*[\\/\:;*?!'"<>|$º•¶§∞¢£]*
 
-# Database Files #
-*.db
-
