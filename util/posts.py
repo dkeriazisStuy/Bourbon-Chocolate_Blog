@@ -19,6 +19,14 @@ def create_table():
         pass
 
 
+# determines if post exists
+def post_exists(id): 
+    c.execute("SELECT EXISTS(SELECT 1 FROM posts WHERE id = ? LIMIT 1)", (id,))
+    result = c.fetchone()[0]
+    print (id + " exists? " + str(result == 1))
+    return result == 1
+
+
 # adds (creates) a post to posts
 def create_post(id, title, content, author):
     params = (id, title, content, author)
@@ -28,17 +36,17 @@ def create_post(id, title, content, author):
 
 # gets a post from posts
 def get_post(id):
-    params = (id)
-    c.execute("SELECT * FROM posts WHERE id = ?;", (params,))
-    print ("get_post: " + id) # see that it runs, comment out later
-    print(c.fetchall()) # just printing c.fetchall() for now -- will fix later 
-    
+    c.execute("SELECT * FROM posts WHERE id = ?;", (id,))
+    print ("get_post: " + id + "\t" + str(c.fetchall())) # see that it runs, comment out later
+    # print(c.fetchall()) # just printing c.fetchall() for now -- will fix later 
+    # should return c.fetchone()
+    # c.fetchall() should only return 1 post
 
+    
 # deletes a post from posts
-def delete_post(title):
-    params = (title)
-    c.execute("DELETE FROM posts WHERE title = ?;", (params,))
-    print("delete_post: " + title) # see that it runs, comment out later
+def delete_post(id):
+    c.execute("DELETE FROM posts WHERE title = ?;", (id,))
+    print("delete_post: " + id) # see that it runs, comment out later
 
 
 # edits a post from posts
@@ -49,31 +57,8 @@ def edit_post(id, title, content):
 
 
 
-# tests
-def tests(): 
-    create_post("id","title","content","anon")
-    create_post("ads","ads","content","anon")
-    create_post("ads1","title","content","anon")
-    create_post(random.SystemRandom().getrandbits(16),"title","content","anon")
-    create_post(random.SystemRandom().getrandbits(16),"title","content","anon")
-    create_post(random.SystemRandom().getrandbits(16),"title","content","anon")
-    create_post("rip","title","content","anon")
-    create_post("rip1","rip1","content","anon")
-    create_post(random.SystemRandom().getrandbits(16),"title","content","anon")
-    create_post(random.SystemRandom().getrandbits(16),"title","content","anon")
-    create_post(random.SystemRandom().getrandbits(16),"title","content","anon")
-    create_post(random.SystemRandom().getrandbits(16),"title","content","anon")
-    get_post("ads")
-    delete_post("ads")
-    delete_post("oops")
-    delete_post("rip1")
-    edit_post("ads1", "hi","bye")
-
-
-
 def main():
     create_table()
-    tests()
     db.commit() # saves changes
     db.close() # closes db
 
