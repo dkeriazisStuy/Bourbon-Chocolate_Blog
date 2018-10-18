@@ -2,6 +2,7 @@ import sqlite3  # Enable control of an sqlite database
 import csv  # Facilitates CSV I/O
 import os
 import hashlib
+import hmac
 
 import os.path  # Used for file locations
 CUR_DIR = os.path.dirname(__file__)  # Absolute path to current directory
@@ -45,16 +46,43 @@ def add_user(username, password):
     )
 
 def auth_user(username, password):  # Not yet implemented
-    return False
+    c.execute(
+        'SELECT pass_hash, salt FROM users WHERE username=? LIMIT 1',
+        (username,)
+    )
+    result = c.fetchone()  # 1 if user exists, else 0
+    if result is None:
+        return False
 
-def remove_user(username):  # Not yet implemented
-    pass
+    pass_hash, salt = result
+    if hmac.compare_digest(pass_hash, hash_pass(password, salt)):
+        return True
+    else:
+        return False
+
+def remove_user(username):
+    c.execute(
+        'DELETE FROM users WHERE username=?',
+        (username,)
+    )
 
 if __name__ == "__main__":
     create_table()
-    print(user_exists('foo'))
+
+    print(user_exists('foo'), 'expected False')
     add_user('foo', 'bar')
-    print(user_exists('foo'))
+    print(user_exists('foo'), 'expected True')
+
+    print(auth_user('foo', 'bar'), 'expected True')
+    print(auth_user('foo', 'bad_pass'), 'expected False')
+    print(auth_user('not_a_user', 'bar'), 'expected False')
+    print(auth_user('not_a_user', 'not_a_pass'), 'expected False')
+
+    print(user_exists('foo'), 'expected True')
+    remove_user('foo')
+    print(user_exists('foo'), 'expected False')
+    remove_user('foo')
+    print(user_exists('foo'), 'expected False')
 
 db.commit()  # Save changes to database
 db.close()  # Close database
