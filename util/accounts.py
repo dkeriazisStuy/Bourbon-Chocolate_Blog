@@ -3,6 +3,7 @@ import csv  # Facilitates CSV I/O
 import os
 import hashlib
 import hmac
+from flask import session
 
 import os.path  # Used for file locations
 CUR_DIR = os.path.dirname(__file__)  # Absolute path to current directory
@@ -37,8 +38,11 @@ def user_exists(username):
 def hash_pass(password, salt):
     return hashlib.pbkdf2_hmac('sha512', password.encode(), salt, 100000)
 
+def get_salt():
+    return os.urandom(32)
+
 def add_user(username, password):
-    salt = os.urandom(32)
+    salt = get_salt()
     pass_hash = hash_pass(password, salt)
     c.execute(
         'INSERT INTO users VALUES (?, ?, ?, 0)',
@@ -56,6 +60,7 @@ def auth_user(username, password):  # Not yet implemented
 
     pass_hash, salt = result
     if hmac.compare_digest(pass_hash, hash_pass(password, salt)):
+        session['user'] = username
         return True
     else:
         return False

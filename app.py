@@ -1,5 +1,8 @@
 from flask import Flask, render_template
+from util.accounts import get_salt
+
 app = Flask(__name__)
+app.secret_key = get_salt()
 
 @app.route('/')
 def index():
@@ -22,7 +25,7 @@ def edit():
     return render_tempalte('edit.html')
 
 @app.route('/signup')
-def signup();
+def signup():
     return render_template('signup.html')
 
 @app.route('/login')
