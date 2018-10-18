@@ -1,5 +1,5 @@
-import sqlite3
-import random
+import sqlite3 
+import random, time
 
 
 DB_FILE = "data.db"
@@ -49,8 +49,31 @@ def edit_post(id, title, content):
 
 
 
+# tests
+def tests(): 
+    create_post("id","title","content","anon")
+    create_post("ads","ads","content","anon")
+    create_post("ads1","title","content","anon")
+    create_post(random.SystemRandom().getrandbits(16),"title","content","anon")
+    create_post(random.SystemRandom().getrandbits(16),"title","content","anon")
+    create_post(random.SystemRandom().getrandbits(16),"title","content","anon")
+    create_post("rip","title","content","anon")
+    create_post("rip1","rip1","content","anon")
+    create_post(random.SystemRandom().getrandbits(16),"title","content","anon")
+    create_post(random.SystemRandom().getrandbits(16),"title","content","anon")
+    create_post(random.SystemRandom().getrandbits(16),"title","content","anon")
+    create_post(random.SystemRandom().getrandbits(16),"title","content","anon")
+    get_post("ads")
+    delete_post("ads")
+    delete_post("oops")
+    delete_post("rip1")
+    edit_post("ads1", "hi","bye")
+
+
+
 def main():
     create_table()
+    tests()
     db.commit() # saves changes
     db.close() # closes db
 
@@ -60,22 +83,5 @@ if __name__ == "__main__":
 
 
 
-# TESTS
 
-create_post("id","title","content","anon")
-create_post("ads","ads","content","anon")
-create_post("ads1","title","content","anon")
-create_post(random.SystemRandom().getrandbits(16),"title","content","anon")
-create_post(random.SystemRandom().getrandbits(16),"title","content","anon")
-create_post(random.SystemRandom().getrandbits(16),"title","content","anon")
-create_post("rip","title","content","anon")
-create_post("rip1","rip1","content","anon")
-create_post(random.SystemRandom().getrandbits(16),"title","content","anon")
-create_post(random.SystemRandom().getrandbits(16),"title","content","anon")
-create_post(random.SystemRandom().getrandbits(16),"title","content","anon")
-create_post(random.SystemRandom().getrandbits(16),"title","content","anon")
-get_post("ads")
-delete_post("ads")
-delete_post("oops")
-delete_post("rip1")
-edit_post("ads1", "hi","bye")
+# print (time.strftime("%y%m%d%H%M%S") + str(random.randint(10001,100000)))
