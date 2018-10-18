@@ -49,6 +49,19 @@ def edit_post(id, title, content):
 
 
 
+def main():
+    create_table()
+    db.commit() # saves changes
+    db.close() # closes db
+
+
+if __name__ == "__main__":
+    main()
+
+
+
+# TESTS
+
 create_post("id","title","content","anon")
 create_post("ads","ads","content","anon")
 create_post("ads1","title","content","anon")
@@ -66,12 +79,3 @@ delete_post("ads")
 delete_post("oops")
 delete_post("rip1")
 edit_post("ads1", "hi","bye")
-
-def main():
-    create_table()
-    db.commit() # saves changes
-    db.close() # closes db
-
-
-if __name__ == "__main__":
-    main()
