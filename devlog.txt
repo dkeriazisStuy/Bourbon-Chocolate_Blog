@@ -72,7 +72,7 @@ rachelN -- 2018-10-17 21:45
 Added posts.py
 
 functions:
-    - make_table() -- makes posts table if not already present
+    - create_table() -- makes posts table if not already present
     - create_post(id, title, content, author) -- adds post to posts
     - get_post(id) -- gets post from posts (only prints for now)
           - NOTE: get_post() should only get 1 post provided that there are NO REPEATING IDs
@@ -85,3 +85,11 @@ etc:
           - uses random.SystemRandom().getrandbits(n) to generate 16 bit random integers to use as IDs for the posts
     - prints statements while functions run for checking -- comment out later
 ==============================================================
+
+rachelN -- 2018-10-17 21:45
+--------------------------------------------------------------
+Standardized code
+    make_table() -> create_table() (also changed in previous devlog entry)
+    util/data.db -> data/data.db
+==============================================================
+

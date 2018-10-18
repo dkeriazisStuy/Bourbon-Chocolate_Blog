@@ -3,6 +3,8 @@ import random
 
 
 DB_FILE = "data.db"
+if __name__ == "__main__":
+    DB_FILE = '../data/' + DB_FILE
 
 db = sqlite3.connect(DB_FILE) # opens or makes the file
 c = db.cursor() 
@@ -10,14 +12,11 @@ c = db.cursor()
 
 
 # makes posts table in data.db
-def make_table():
+def create_table():
     try:
         c.execute("CREATE TABLE posts (id TEXT, title TEXT, content TEXT, author TEXT);")
     except:
         pass
-
-make_table()
-
 
 
 # adds (creates) a post to posts
@@ -68,7 +67,11 @@ delete_post("oops")
 delete_post("rip1")
 edit_post("ads1", "hi","bye")
 
+def main():
+    create_table()
+    db.commit() # saves changes
+    db.close() # closes db
 
 
-db.commit() # saves changes
-db.close() # closes db
+if __name__ == "__main__":
+    main()
