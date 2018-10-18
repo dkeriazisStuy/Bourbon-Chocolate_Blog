@@ -67,3 +67,21 @@ danielK -- 2018-10-17 20:40
 Added empty data directory
 ==============================================================
 
+rachelN -- 2018-10-17 21:45
+--------------------------------------------------------------
+Added posts.py
+
+functions:
+    - make_table() -- makes posts table if not already present
+    - create_post(id, title, content, author) -- adds post to posts
+    - get_post(id) -- gets post from posts (only prints for now)
+          - NOTE: get_post() should only get 1 post provided that there are NO REPEATING IDs
+    - delete_post(title) -- deletes post from posts
+          - while I did not make whether or not it exists a condition, it doesn't delete things that don't exist either
+    - edit_post(id, title, content) -- edits post from posts
+
+etc:
+    - has tests to check functions
+          - uses random.SystemRandom().getrandbits(n) to generate 16 bit random integers to use as IDs for the posts
+    - prints statements while functions run for checking -- comment out later
+==============================================================
