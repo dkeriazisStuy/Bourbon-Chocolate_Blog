@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}
+Blog
+{% endblock %}
+
+  {% block content %} 
+blog content
+
+    {% set msgs = get_flashed_messages() %}
+    {% for each in msgs %}
+   <font color="red"> {{ each }} </font>
+    <br>
+    {% endfor %}
+    
+{% endblock %}
