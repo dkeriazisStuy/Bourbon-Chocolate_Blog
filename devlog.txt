@@ -131,7 +131,8 @@ danielK -- 2018-10-18 07:55
 Got accounts working in the frontend
 ==============================================================
 
-karenL -- 2018-10-18 07:55
+karenL -- 2018-10-18 13:05
 --------------------------------------------------------------
-Added templates for signup, edit, and blog
+Added templates for index, signup, edit, and blog
 ==============================================================
+
