@@ -60,11 +60,15 @@ def signup():
     password = request.form.get('password')
     confirm = request.form.get('confirm')
 
-    if password != confirm:
+    if util.accounts.user_exists(username):
+        flash('Username already taken')
+        return render_template('signup.html')
+    elif password != confirm:
         flash('Passwords do not match')
         return render_template('signup.html')
     else:
         util.accounts.add_user(username, password)
+        util.accounts.login_user(session, username)
         return redirect('/')
 
 @app.route('/logout', methods=['GET', 'POST'])

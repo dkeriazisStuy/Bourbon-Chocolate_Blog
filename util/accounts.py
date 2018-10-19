@@ -3,12 +3,7 @@ import csv  # Facilitates CSV I/O
 import os
 import hashlib
 import hmac
-
-import os.path  # Used for file locations
-CUR_DIR = os.path.dirname(__file__)  # Absolute path to current directory
-ROOT_DIR = os.path.join(CUR_DIR, os.path.pardir)  # Location of root directory
-DATA_DIR = os.path.join(ROOT_DIR, 'data')  # Location of data directory
-DB_FILE = os.path.join(DATA_DIR, 'data.db')  # Location of database file
+from .paths import *
 
 def start_db():
     db = sqlite3.connect(DB_FILE)  # Open if file exists, otherwise create
@@ -66,7 +61,7 @@ def auth_user(username, password):  # Not yet implemented
         'SELECT pass_hash, salt FROM users WHERE username=? LIMIT 1',
         (username,)
     )
-    result = c.fetchone()  # 1 if user exists, else 0
+    result = c.fetchone()
     end_db(db)
     if result is None:
         return False
@@ -97,7 +92,7 @@ def remove_user(username):
     )
     end_db(db)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     create_table()
 
     print(user_exists('foo'), 'expected False')
