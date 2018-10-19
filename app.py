@@ -6,7 +6,13 @@ app.secret_key = util.accounts.get_salt()
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    if util.accounts.is_logged_in(session):
+        return render_template(
+                    'index_user.html',
+                    user=util.accounts.get_logged_in_user(session)
+                )
+    else:
+        return render_template('index_anon.html')
 
 @app.route('/blog')
 def blog():
@@ -14,7 +20,7 @@ def blog():
 
 #  @app.route('/search')
 #  def search():
-#  return render_template('search.html')
+    #  return render_template('search.html')
 
 @app.route('/edit')
 def edit():

@@ -10,13 +10,17 @@ ROOT_DIR = os.path.join(CUR_DIR, os.path.pardir)  # Location of root directory
 DATA_DIR = os.path.join(ROOT_DIR, 'data')  # Location of data directory
 DB_FILE = os.path.join(DATA_DIR, 'data.db')  # Location of database file
 
-db = sqlite3.connect(
-        DB_FILE,  # Open if file exists, otherwise create
-        check_same_thread=False  # Allow it to be used across files
-)
-c = db.cursor()  # Facilitate db operations
+def start_db():
+    db = sqlite3.connect(DB_FILE)  # Open if file exists, otherwise create
+    c = db.cursor()  # Facilitate db operations
+    return db, c
+
+def end_db(db):
+    db.commit()  # Save changes to database
+    db.close()  # Close database
 
 def create_table():
+    db, c = start_db()
     try:
         c.execute('''CREATE TABLE users (
                     username TEXT PRIMARY KEY,
@@ -26,8 +30,10 @@ def create_table():
                 )''')
     except sqlite3.OperationalError:  # Table already exists
         pass
+    end_db(db)
 
 def user_exists(username):
+    db, c = start_db()
     # Check whether there is a row in 'users' where the column 'username' has
     # the value of `username`
     c.execute(
@@ -35,6 +41,7 @@ def user_exists(username):
         (username,)
     )
     result = c.fetchone()[0]  # 1 if user exists, else 0
+    end_db(db)
     return result == 1
 
 def hash_pass(password, salt):
@@ -44,19 +51,23 @@ def get_salt():
     return os.urandom(32)
 
 def add_user(username, password):
+    db, c = start_db()
     salt = get_salt()
     pass_hash = hash_pass(password, salt)
     c.execute(
         'INSERT INTO users VALUES (?, ?, ?, 0)',
         (username, pass_hash, salt)
     )
+    end_db(db)
 
 def auth_user(username, password):  # Not yet implemented
+    db, c = start_db()
     c.execute(
         'SELECT pass_hash, salt FROM users WHERE username=? LIMIT 1',
         (username,)
     )
     result = c.fetchone()  # 1 if user exists, else 0
+    end_db(db)
     if result is None:
         return False
 
@@ -75,11 +86,16 @@ def is_logged_in(session):
 def logout_user(session):
     del session['user']
 
+def get_logged_in_user(session):
+    return session['user']
+
 def remove_user(username):
+    db, c = start_db()
     c.execute(
         'DELETE FROM users WHERE username=?',
         (username,)
     )
+    end_db(db)
 
 if __name__ == "__main__":
     create_table()
@@ -102,7 +118,4 @@ if __name__ == "__main__":
     print(user_exists('foo'), 'expected False')
     add_user('foo', 'bar')
     print(user_exists('foo'), 'expected True')
-
-db.commit()  # Save changes to database
-#  db.close()  # Close database
 
