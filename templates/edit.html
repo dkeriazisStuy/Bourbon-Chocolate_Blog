@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}
+Edit blog
+{% endblock %} 
+
+{% block content %}
+<textarea name = "test" rows="100" cols="100">
+  {% block text %}
+
+  {% endblock %}
+</textarea>
+
+    {% set msgs = get_flashed_messages() %}
+    {% for each in msgs %}
+   <font color="red"> {{ each }} </font>
+    <br>
+    {% endfor %}
+    
+{% endblock %}

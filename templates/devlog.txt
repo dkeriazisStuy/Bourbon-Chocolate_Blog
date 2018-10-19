@@ -1,0 +1,137 @@
+Bourbon Chocolate
+Daniel Keriazis
+Karen Li
+Rachel Ng
+Vincent Lin
+pd 7
+---------------------
+Blog
+
+
+ ______   ______   __   __   __       ______   _______
+/_____/\ /_____/\ /_/\ /_/\ /_/\     /_____/\ /______/\
+\:::_ \ \\::::_\/_\:\ \\ \ \\:\ \    \:::_ \ \\::::__\/__
+ \:\ \ \ \\:\/___/\\:\ \\ \ \\:\ \    \:\ \ \ \\:\ /____/\
+  \:\ \ \ \\::___\/_\:\_/.:\ \\:\ \____\:\ \ \ \\:\\_  _\/
+   \:\/.:| |\:\____/\\ ..::/ / \:\/___/\\:\_\ \ \\:\_\ \ \
+    \____/_/ \_____\/ \___/_(   \_____\/ \_____\/ \_____\/
+==============================================================
+||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+
+danielK -- 2018-10-16 13:19
+--------------------------------------------------------------
+Began devlog
+==============================================================
+
+karenL -- 2018-10-16 23:40
+--------------------------------------------------------------
+Modified component map to be more specific to our project
+Made breakdown of roles more thorough
+==============================================================
+
+rachelN -- 2018-10-16 23:44
+--------------------------------------------------------------
+We should attempt to maintain backwards compatibility between updates.
+We will attempt to do this by practicing semantic versioning (https://semver.org/).
+We will also set standards for our code to make it as easy as possible to work with as a team.
+==============================================================
+
+rachelN -- 2018-10-17 12:53
+--------------------------------------------------------------
+Added design.pdf to repo
+==============================================================
+
+keriazisD -- 2018-10-17 12:59
+--------------------------------------------------------------
+Added flask starter kit
+==============================================================
+
+karenL -- 2018-10-17 13:08
+--------------------------------------------------------------
+Devlog formatting
+==============================================================
+
+vincentL -- 2018-10-17 13:18
+--------------------------------------------------------------
+added app routes
+==============================================================
+
+danielK -- 2018-10-17 14:58
+--------------------------------------------------------------
+Began work on accounts.py
+==============================================================
+
+danielK -- 2018-10-17 20:40
+--------------------------------------------------------------
+Added empty data directory
+==============================================================
+
+rachelN -- 2018-10-17 21:38
+--------------------------------------------------------------
+Added posts.py
+
+functions:
+    - create_table() -- makes posts table if not already present
+    - create_post(id, title, content, author) -- adds post to posts
+    - get_post(id) -- gets post from posts (only prints for now)
+          - NOTE: get_post() should only get 1 post provided that there are NO REPEATING IDs
+    - delete_post(title) -- deletes post from posts
+          - while I did not make whether or not it exists a condition, it doesn't delete things that don't exist either
+    - edit_post(id, title, content) -- edits post from posts
+
+etc:
+    - has tests to check functions
+          - uses random.SystemRandom().getrandbits(n) to generate 16 bit random integers to use as IDs for the posts
+    - prints statements while functions run for checking -- comment out later
+==============================================================
+
+rachelN -- 2018-10-17 21:45
+--------------------------------------------------------------
+Standardized code
+    make_table() -> create_table() (also changed in previous devlog entry)
+    util/data.db -> data/data.db
+==============================================================
+
+danielK -- 2018-10-17 22:22
+--------------------------------------------------------------
+Added add_user and user_exists
+==============================================================
+
+rachelN -- 2018-10-17 23:15
+--------------------------------------------------------------
+Fixed issues with test cases -- added tests() and put into main()
+==============================================================
+
+danielK -- 2018-10-18 00:16
+--------------------------------------------------------------
+Added auth_user and remove_user as well as basic tests
+==============================================================
+
+rachelN -- 2018-10-17 13:15
+--------------------------------------------------------------
+delete_post() takes an id
+t_posts.py contains test cases for posts
+==============================================================
+
+danielK -- 2018-10-18 13:23
+--------------------------------------------------------------
+Began sessioning
+==============================================================
+
+vincentL -- 2018-10-18 23:26
+--------------------------------------------------------------
+-Worked on login
+-Made error messages that tell user why they failed to log in
+-Hardcoded a username and password for testing purposes
+==============================================================
+
+danielK -- 2018-10-18 07:55
+--------------------------------------------------------------
+Got accounts working in the frontend
+==============================================================
+
+karenL -- 2018-10-18 07:55
+--------------------------------------------------------------
+Added templates for signup, edit, and blog
+==============================================================

@@ -1,16 +1,17 @@
 {% extends "base.html" %}
 
 {% block title %}
-Login
+Signup
 {% endblock %}
 
   {% block content %}
     <form action="/login" method = "POST">
-    Username: <br>
+    Enter a new username: <br>
         <input type="text" name="username">
     <br> Password: <br>
         <input type="password" name="password">
-        <br>
+        </br>
+	<input type="password" name="confirm">
         <button type="submit"> Log In </button>
     </form>
 
