@@ -65,6 +65,11 @@ def signup():
         util.accounts.add_user(username, password)
         return redirect('/')
 
+@app.route('/logout', methods=['GET', 'POST'])
+def logout():
+    util.accounts.logout_user(session)
+    return redirect('/')
+
 if __name__ == '__main__':
     app.debug = True  # Set to `False` before release
     app.run()

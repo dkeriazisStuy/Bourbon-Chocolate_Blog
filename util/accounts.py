@@ -72,6 +72,9 @@ def login_user(session, username):
 def is_logged_in(session):
     return 'user' in session
 
+def logout_user(session):
+    del session['user']
+
 def remove_user(username):
     c.execute(
         'DELETE FROM users WHERE username=?',
