@@ -1,16 +1,19 @@
-import sqlite3 
 import random
 import posts
-
-DB_FILE = "data.db"
-if __name__ == "__main__":
-    DB_FILE = '../data/' + DB_FILE
-
-db = sqlite3.connect(DB_FILE) # opens or makes the file
-c = db.cursor() 
+import os
 
 
-posts.create_table()
+if os.path.isfile("data.db"):
+    os.remove("data.db")
+else:
+    pass
+
+if os.path.isfile("data.db"):
+    os.remove("data.db-journal")
+else:
+    pass
+
+#posts.create_table()
 
 
 posts.create_post("id","title","content","anon")
@@ -40,12 +43,9 @@ posts.delete_post("rip1")
 posts.get_post("rip1")
 posts.delete_post("rip2")
 posts.get_post("rip2")
-
 posts.get_post("ads")
 
 
 posts.edit_post("ads1", "hi","bye")
 
 
-db.commit() # saves changes
-db.close() # closes db
