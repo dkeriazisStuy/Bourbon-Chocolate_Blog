@@ -113,3 +113,9 @@ danielK -- 2018-10-18 13:23
 Began sessioning
 ==============================================================
 
+vincentL -- 2018-10-18 23:26
+--------------------------------------------------------------
+-Worked on login
+-Made error messages that tell user why they failed to log in
+-Hardcoded a username and password for testing purposes
+==============================================================
