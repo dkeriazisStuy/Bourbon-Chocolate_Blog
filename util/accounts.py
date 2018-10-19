@@ -3,7 +3,6 @@ import csv  # Facilitates CSV I/O
 import os
 import hashlib
 import hmac
-from flask import session
 
 import os.path  # Used for file locations
 CUR_DIR = os.path.dirname(__file__)  # Absolute path to current directory
@@ -11,7 +10,10 @@ ROOT_DIR = os.path.join(CUR_DIR, os.path.pardir)  # Location of root directory
 DATA_DIR = os.path.join(ROOT_DIR, 'data')  # Location of data directory
 DB_FILE = os.path.join(DATA_DIR, 'data.db')  # Location of database file
 
-db = sqlite3.connect(DB_FILE)  # Open if file exists, otherwise create
+db = sqlite3.connect(
+        DB_FILE,  # Open if file exists, otherwise create
+        check_same_thread=False  # Allow it to be used across files
+)
 c = db.cursor()  # Facilitate db operations
 
 def create_table():
@@ -60,10 +62,15 @@ def auth_user(username, password):  # Not yet implemented
 
     pass_hash, salt = result
     if hmac.compare_digest(pass_hash, hash_pass(password, salt)):
-        session['user'] = username
         return True
     else:
         return False
+
+def login_user(session, username):
+    session['user'] = username
+
+def is_logged_in(session):
+    return 'user' in session
 
 def remove_user(username):
     c.execute(
@@ -89,6 +96,10 @@ if __name__ == "__main__":
     remove_user('foo')
     print(user_exists('foo'), 'expected False')
 
+    print(user_exists('foo'), 'expected False')
+    add_user('foo', 'bar')
+    print(user_exists('foo'), 'expected True')
+
 db.commit()  # Save changes to database
-db.close()  # Close database
+#  db.close()  # Close database
 

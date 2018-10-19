@@ -5,7 +5,7 @@ Login
 {% endblock %}
 
   {% block content %}
-    <form action="/auth" method = "POST">
+    <form action="/login" method = "POST">
     Username: </br>
         <input type="text" name="username">
     </br> Password: </br>
@@ -19,5 +19,5 @@ Login
    <font color="red"> {{ each }} </font>
     <br>
     {% endfor %}
-    
+
 {% endblock %}
