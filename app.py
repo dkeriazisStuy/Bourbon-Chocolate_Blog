@@ -22,10 +22,6 @@ def edit():
         return redirect('/')
     return render_template('edit.html')
 
-@app.route('/signup')
-def signup():
-    return render_template('signup.html')
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'GET':
@@ -44,7 +40,7 @@ def login():
     else:
         flash('Bad username or password')
         return render_template('login.html')
-    
+
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
     if request.method == 'GET':
