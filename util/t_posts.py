@@ -1,20 +1,13 @@
 import random
 import posts
-import os
 
+def post_exists_msg(id,exists):
+    if exists:
+        print (id + " exists? " + str(exists))
 
-if os.path.isfile("data.db"):
-    os.remove("data.db")
-else:
-    pass
-
-if os.path.isfile("data.db"):
-    os.remove("data.db-journal")
-else:
-    pass
-
-#posts.create_table()
-
+posts.create_table()
+        
+posts.db_file()
 
 posts.create_post("id","title","content","anon")
 posts.create_post("ads","ads","content","anon")
@@ -32,11 +25,15 @@ posts.create_post(random.SystemRandom().getrandbits(16),"title","content","anon"
 
 
 posts.get_post("ads")
+posts.get_author_posts("anon")
+posts.get_author_posts("nobody")
+print("does author anon exist? " + str(posts.author_exists("anon")))
+print("does author nobody exist? " + str(posts.author_exists("nobody")))
 
 
 posts.delete_post("ads")
 posts.get_post("ads")
-posts.post_exists("oops")
+post_exists_msg("oops",posts.post_exists("oops"))
 posts.delete_post("oops")
 posts.get_post("oops")
 posts.delete_post("rip1")
@@ -47,5 +44,8 @@ posts.get_post("ads")
 
 
 posts.edit_post("ads1", "hi","bye")
+posts.edit_post("oops", "hi","bye")
 
+
+posts.get_db()
 
