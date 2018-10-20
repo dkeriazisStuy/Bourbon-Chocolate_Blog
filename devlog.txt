@@ -177,19 +177,19 @@ danielK -- 2018-10-19 18:42
 Creating an account now logs you in
 ==============================================================
 
-rachelN -- 2018-10-17 01:10
+rachelN -- 2018-10-20 01:10
 --------------------------------------------------------------
 posts.py
-    - modularity: 
+    - modularity:
           - NEW      now (further) modularized
                 - connect_db() -- opens the database and connects the cursor, returns db, c
-                      - added to pretty much every function that has to do database stuff 
+                      - added to pretty much every function that has to do database stuff
                 - close_db(db) -- commits to and closes connection to database
                       - added to pretty much every function that has to do database stuff
                 - get_db() -- gets all rows from posts
                 - db_file() -- prints the database location somewhere
-          - post_exists(id) -- determines if post exists, fixed ver. 
-          - NEW      author_exists(author) -- determines if author exists 
+          - post_exists(id) -- determines if post exists, fixed ver.
+          - NEW      author_exists(author) -- determines if author exists
                 - posts.author should be the same as users.username
           - NEW      get_author_posts(author) -- I think we're going to need this to get all of an author's posts for *any* author's blog page
 
@@ -198,8 +198,13 @@ posts.py
     - delete_post(id) -- if the post doesn't exist it doesn't get deleted
     - edit_post(id, title, content) -- if the post doesn't exist it doesn't get edited
     - main() has been deleted and all the stuff that was in it was just moved under the if statement ig
- 
-t_posts.py -- now works!! 
-t_posts2.py -- currently trying to make a more quantifiable driver or something like that 
+
+t_posts.py -- now works!!
+t_posts2.py -- currently trying to make a more quantifiable driver or something like that
+==============================================================
+
+danielK -- 2018-10-20 13:04
+--------------------------------------------------------------
+Started a proper testing suite for accounts
 ==============================================================
 

@@ -3,19 +3,10 @@ import csv  # Facilitates CSV I/O
 import os
 import hashlib
 import hmac
-from .paths import *
-
-def start_db():
-    db = sqlite3.connect(DB_FILE)  # Open if file exists, otherwise create
-    c = db.cursor()  # Facilitate db operations
-    return db, c
-
-def end_db(db):
-    db.commit()  # Save changes to database
-    db.close()  # Close database
+import config
 
 def create_table():
-    db, c = start_db()
+    db, c = config.start_db()
     try:
         c.execute('''CREATE TABLE users (
                     username TEXT PRIMARY KEY,
@@ -25,10 +16,10 @@ def create_table():
                 )''')
     except sqlite3.OperationalError:  # Table already exists
         pass
-    end_db(db)
+    config.end_db(db)
 
 def user_exists(username):
-    db, c = start_db()
+    db, c = config.start_db()
     # Check whether there is a row in 'users' where the column 'username' has
     # the value of `username`
     c.execute(
@@ -36,7 +27,7 @@ def user_exists(username):
         (username,)
     )
     result = c.fetchone()[0]  # 1 if user exists, else 0
-    end_db(db)
+    config.end_db(db)
     return result == 1
 
 def hash_pass(password, salt):
@@ -46,23 +37,26 @@ def get_salt():
     return os.urandom(32)
 
 def add_user(username, password):
-    db, c = start_db()
-    salt = get_salt()
-    pass_hash = hash_pass(password, salt)
-    c.execute(
-        'INSERT INTO users VALUES (?, ?, ?, 0)',
-        (username, pass_hash, salt)
-    )
-    end_db(db)
+    #  db, c = config.start_db()
+    #  config.end_db(db)
+    with sqlite3.connect(config.DB_FILE) as db:
+        c = db.cursor()
+        salt = get_salt()
+        pass_hash = hash_pass(password, salt)
+        c.execute(
+            'INSERT INTO users VALUES (?, ?, ?, 0)',
+            (username, pass_hash, salt)
+        )
+        db.commit()
 
 def auth_user(username, password):  # Not yet implemented
-    db, c = start_db()
+    db, c = config.start_db()
     c.execute(
         'SELECT pass_hash, salt FROM users WHERE username=? LIMIT 1',
         (username,)
     )
     result = c.fetchone()
-    end_db(db)
+    config.end_db(db)
     if result is None:
         return False
 
@@ -85,32 +79,10 @@ def get_logged_in_user(session):
     return session['user']
 
 def remove_user(username):
-    db, c = start_db()
+    db, c = config.start_db()
     c.execute(
         'DELETE FROM users WHERE username=?',
         (username,)
     )
-    end_db(db)
-
-if __name__ == '__main__':
-    create_table()
-
-    print(user_exists('foo'), 'expected False')
-    add_user('foo', 'bar')
-    print(user_exists('foo'), 'expected True')
-
-    print(auth_user('foo', 'bar'), 'expected True')
-    print(auth_user('foo', 'bad_pass'), 'expected False')
-    print(auth_user('not_a_user', 'bar'), 'expected False')
-    print(auth_user('not_a_user', 'not_a_pass'), 'expected False')
-
-    print(user_exists('foo'), 'expected True')
-    remove_user('foo')
-    print(user_exists('foo'), 'expected False')
-    remove_user('foo')
-    print(user_exists('foo'), 'expected False')
-
-    print(user_exists('foo'), 'expected False')
-    add_user('foo', 'bar')
-    print(user_exists('foo'), 'expected True')
+    config.end_db(db)
 
