@@ -3,7 +3,7 @@ import csv  # Facilitates CSV I/O
 import os
 import hashlib
 import hmac
-import config
+import util.config as config
 
 def create_table():
     db, c = config.start_db()

@@ -1,7 +1,7 @@
 import unittest
-import config
 import os
-import accounts
+import util.config as config
+import util.accounts as accounts
 
 config.use_test_db()  # Use a test database
 
