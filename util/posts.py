@@ -2,8 +2,6 @@ import sqlite3
 import random, time
 
 
-
-
 def connect_db():
     db = sqlite3.connect("../data/data.db")
     c = db.cursor()
@@ -29,8 +27,6 @@ def db_file():
     for row in rows:
         print(row[0], row[1], row[2])
 
-        
-    
 
 # makes posts table in data.db
 def create_table():
@@ -40,8 +36,6 @@ def create_table():
     except:
         pass
     close_db(db)
-
-
 
 
 # determines if post exists
@@ -62,8 +56,6 @@ def author_exists(author):
     #print (id + " exists? " + str(result == 1))
     close_db(db)
     return result == 1
-
-
 
 
 # adds (creates) a post to posts
@@ -113,7 +105,7 @@ def get_author_posts(author):
 # deletes a post from posts
 def delete_post(id):
     db, c = connect_db()
-    if post_exists(id): # if the post exists, delete it 
+    if post_exists(id): # if the post exists, delete it
         c.execute("DELETE FROM posts WHERE title = ?;", (id,))
         print("delete_post: " + id) # see that it runs, comment out later
     else: # if the post doesn't exist
@@ -125,7 +117,7 @@ def delete_post(id):
 # edits a post from posts
 def edit_post(id, title, content):
     db, c = connect_db()
-    if post_exists(id): # if the post exists, edit it 
+    if post_exists(id): # if the post exists, edit it
         params = (title, content, id)
         c.execute("UPDATE posts SET title = (?), content = (?)  WHERE id = (?);", params)
         print("edited: " + id + "\t" + title + "\t" + content) # see that it runs, comment out later
@@ -133,8 +125,6 @@ def edit_post(id, title, content):
         print(":P post " + id + " doesn't exist")
         pass
     close_db(db)
-
-
 
 
 if __name__ == "__main__":
@@ -147,5 +137,5 @@ if __name__ == "__main__":
     create_post(random.SystemRandom().getrandbits(16),"title","content","anon")
     print("\nCURRENT DATABASE")
     get_db()
+    # print (time.strftime("%y%m%d%H%M%S") + str(random.randint(10001,100000)))
 
-# print (time.strftime("%y%m%d%H%M%S") + str(random.randint(10001,100000)))

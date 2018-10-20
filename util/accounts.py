@@ -5,6 +5,7 @@ import hashlib
 import hmac
 import util.config as config
 
+
 def create_table():
     db, c = config.start_db()
     try:
@@ -18,6 +19,7 @@ def create_table():
         pass
     config.end_db(db)
 
+
 def user_exists(username):
     db, c = config.start_db()
     # Check whether there is a row in 'users' where the column 'username' has
@@ -30,24 +32,25 @@ def user_exists(username):
     config.end_db(db)
     return result == 1
 
+
 def hash_pass(password, salt):
     return hashlib.pbkdf2_hmac('sha512', password.encode(), salt, 100000)
+
 
 def get_salt():
     return os.urandom(32)
 
+
 def add_user(username, password):
-    #  db, c = config.start_db()
-    #  config.end_db(db)
-    with sqlite3.connect(config.DB_FILE) as db:
-        c = db.cursor()
-        salt = get_salt()
-        pass_hash = hash_pass(password, salt)
-        c.execute(
-            'INSERT INTO users VALUES (?, ?, ?, 0)',
-            (username, pass_hash, salt)
-        )
-        db.commit()
+    db, c = config.start_db()
+    salt = get_salt()
+    pass_hash = hash_pass(password, salt)
+    c.execute(
+        'INSERT INTO users VALUES (?, ?, ?, 0)',
+        (username, pass_hash, salt)
+    )
+    config.end_db(db)
+
 
 def auth_user(username, password):  # Not yet implemented
     db, c = config.start_db()
@@ -66,17 +69,22 @@ def auth_user(username, password):  # Not yet implemented
     else:
         return False
 
+
 def login_user(session, username):
     session['user'] = username
+
 
 def is_logged_in(session):
     return 'user' in session
 
+
 def logout_user(session):
     del session['user']
 
+
 def get_logged_in_user(session):
     return session['user']
+
 
 def remove_user(username):
     db, c = config.start_db()
