@@ -1,9 +1,10 @@
 import sqlite3
 import random, time
+import util.config
 
 
 def connect_db():
-    db = sqlite3.connect("../data/data.db")
+    db = sqlite3.connect(util.config.DB_FILE)
     c = db.cursor()
     return db, c
 
@@ -74,14 +75,14 @@ def create_post(id, title, content, author):
 # gets a post from posts
 def get_post(id):
     db, c = connect_db()
-    if post_exists(id): # if the post exists, get it 
+    if post_exists(id): # if the post exists, get it
         c.execute("SELECT * FROM posts WHERE id = ?;", (id,))
         rows = c.fetchall()
         for row in rows:
             print(row[0], row[1], row[2], row[3])
             return row[2]
         #print ("get_post: " + id + "\t" + str(c.fetchall())) # see that it runs, comment out later
-        # print(c.fetchall()) # just printing c.fetchall() for now -- will fix later 
+        # print(c.fetchall()) # just printing c.fetchall() for now -- will fix later
         # should return c.fetchone()
         # c.fetchall() should only return 1 post
     else: # if the post doesn't exist, do nothing
