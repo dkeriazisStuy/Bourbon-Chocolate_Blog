@@ -120,6 +120,8 @@ def post():
 
 
 if __name__ == '__main__':
+    util.posts.create_table()
+    util.accounts.create_table()
     app.debug = True  # Set to `False` before release
     app.run()
 
