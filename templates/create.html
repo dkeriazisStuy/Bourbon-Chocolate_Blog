@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{title}}
+{% endblock %}
+
+{% block content %}
+<div style="width: 510px;
+            padding-bottom: 10px;">
+      <center>
+            Create a Blog Post!
+      </center>
+      <form action="/create" method="POST">
+            <div style="background-color: #B3B3B3;
+                        padding: 5px;
+                        padding-bottom: 10px;">
+                  Post Title<br>
+                  <input
+                        type="text"
+                        name="title"
+                        style="" />
+            </div><br>
+
+            <div style="background-color: #B3B3B3;
+                        padding: 5px;
+                        padding-bottom: 10px;">
+                  Post Content<br>
+                  <textarea
+                        name="content"
+                        style="width: 495px;
+                              height: 100px;">
+                  </textarea>
+            </div>
+
+            <button type="submit"> Log In </button>
+      </form>
+</div>
+
+{% endblock %}

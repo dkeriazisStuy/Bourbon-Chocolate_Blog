@@ -1,5 +1,7 @@
 import sqlite3
-import random, time
+import random
+import time
+from string import ascii_letters, digits
 import util.config
 
 
@@ -37,6 +39,13 @@ def create_table():
     except:
         pass
     close_db(db)
+
+
+def get_post_id():
+    # RFC 4648 "URL and Filename safe" Base 64 Alphabet
+    charset = ascii_letters + digits + '_-'
+    id_length = 16
+    return ''.join(random.choice(charset) for _ in range(id_length))
 
 
 # determines if post exists
@@ -126,6 +135,18 @@ def edit_post(id, title, content):
         print(":P post " + id + " doesn't exist")
         pass
     close_db(db)
+
+
+def render_post(content):
+    replacements = (
+        ('&', '&amp;'),
+        ('<', '&lt;'),
+        ('>', '&gt;'),
+        ('\n', '<br>'),
+    )
+    for key, val in replacements:
+        content = content.replace(key, val)
+    return content
 
 
 if __name__ == "__main__":

@@ -11,12 +11,25 @@
 
 <body>
 
+  {% block navbar %}
+  <div style="background: #B3B3B3;
+              position:absolute;
+              top: 0;
+              left:0;
+              right:0;
+              height: 60px;">
+    <h1>Blog</h1>
+  </div>
+  {% endblock %}
+
   {% block content %}
 
   {% endblock %}
 
   {% block footer %}
-  &copy Copyright 2018 by Bourbon Chocolate
+  <p style="color: #B3B3B3">
+    <small>&copy Copyright 2018 Bourbon Chocolate</small>
+  </p>
   {% endblock %}
 
 </body>

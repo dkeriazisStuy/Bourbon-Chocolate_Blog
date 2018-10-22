@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{title}}
+{% endblock %}
+
+{% block content %}
+<div>
+      {{title}}<br>
+      <p style="
+      border:1px;
+      border-radius:10px;
+      border-style:solid;
+      border-color:#B3B3B3;
+      padding: 1em;
+      width: 750px;">
+      {% autoescape false %}
+          {{content}}
+      {% endautoescape %}
+      </p>
+</div>
+{% endblock %}
