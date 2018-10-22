@@ -88,6 +88,20 @@ def get_post(id):
     util.config.end_db(db)
 
 
+# gets a title from posts
+def get_title(id):
+    db, c = util.config.start_db()
+    if post_exists(id): # if the post exists, get it
+        c.execute("SELECT * FROM posts WHERE id = ?;", (id,))
+        rows = c.fetchall()
+        for row in rows:
+            print(row[0], row[1], row[2], row[3])
+            return row[1]
+    else:
+        pass
+    util.config.end_db(db)
+    
+
 # gets all of an author's posts from posts
 def get_author_posts(author):
     db, c = util.config.start_db()
