@@ -1,36 +1,48 @@
 <!DOCTYPE html>
 <head>
+  
   {% block head %}
+  
   <title> {% block title %} {% endblock %}
     | Bourbon Chocolate
   </title>
-
+  
   {% endblock %}
 
 </head>
 
 <body>
 
-  {% block navbar %}
-  <!-- <div style="background: #B3B3B3; -->
-              <!-- position:absolute; -->
-              <!-- top: 0; -->
-              <!-- left:0; -->
-              <!-- right:0; -->
-              <!-- height: 60px;"> -->
-    <!-- <h1>Blog</h1> -->
-  <!-- </div> -->
-  {% endblock %}
+  <header>
+    {% block navbar %}
+    
+    <h1>Blog</h1>
 
-  {% block content %}
+    <a href = "/"> Homepage </a>
+    
+    {% endblock %}
+  </header>
+  
+  <hr>
+  
+  <section>
+    <br>
 
-  {% endblock %}
+    {% block content %}
 
-  {% block footer %}
-  <p style="color: #B3B3B3">
-    <small>&copy Copyright 2018 Bourbon Chocolate</small>
-  </p>
-  {% endblock %}
+    {% endblock %}
+
+  </section>
+
+  <footer>
+    <br>
+    <hr>
+
+    {% block footer %}
+      <small>&copy Copyright 2018 Bourbon Chocolate</small>
+    {% endblock %}
+
+  </footer>
 
 </body>
 
