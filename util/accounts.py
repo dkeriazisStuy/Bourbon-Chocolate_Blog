@@ -11,9 +11,9 @@ def create_table():
     try:
         c.execute('''CREATE TABLE users (
                     username TEXT PRIMARY KEY,
-                    pass_hash BLOB,
-                    salt BLOB,
-                    karma INT
+                    pass_hash BLOB NOT NULL,
+                    salt BLOB NOT NULL,
+                    karma INT NOT NULL
                 )''')
     except sqlite3.OperationalError:  # Table already exists
         pass

@@ -1,5 +1,5 @@
-import sqlite3
 import random
+import sqlite3
 import time
 from string import ascii_letters, digits
 import util.config
@@ -7,7 +7,7 @@ import util.config
 
 def get_db():
     db, c = util.config.start_db()
-    c.execute("SELECT * FROM posts;")
+    c.execute("SELECT * FROM posts")
     print(c.fetchall())
     util.config.end_db(db)
 
@@ -20,103 +20,98 @@ def db_file():
         print(row[0], row[1], row[2])
 
 
-# makes posts table in data.db
 def create_table():
+    """Makes 'posts' table in data.db"""
     db, c = util.config.start_db()
     try:
-        c.execute("CREATE TABLE posts (id TEXT, title TEXT, content TEXT, author TEXT);")
-    except:
+        c.execute(
+            '''CREATE TABLE posts (
+                id TEXT PRIMARY KEY,
+                title TEXT NOT NULL,
+                content TEXT NOT NULL,
+                author TEXT NOT NULL,
+                time INT NOT NULL
+            )'''
+        )
+    except sqlite3.OperationalError:  # Table already exists
         pass
     util.config.end_db(db)
 
 
 def get_post_id():
+    """Returns a random post id"""
     # RFC 4648 "URL and Filename safe" Base 64 Alphabet
-    charset = ascii_letters + digits + '_-'
+    charset = ascii_letters + digits + '-_'
     id_length = 16
     return ''.join(random.choice(charset) for _ in range(id_length))
 
 
-# determines if post exists
-def post_exists(id):
+def post_exists(post):
+    """Returns whether a post exists"""
     db, c = util.config.start_db()
-    c.execute("SELECT EXISTS(SELECT 1 FROM posts WHERE id = ? LIMIT 1)", (id,))
+    c.execute(
+        "SELECT EXISTS(SELECT 1 FROM posts WHERE id = ? LIMIT 1)",
+        (post,)
+    )
     result = c.fetchone()[0]
-    #print (id + " exists? " + str(result == 1))
+    #print (post + " exists? " + str(result == 1))
     util.config.end_db(db)
     return result == 1
 
 
-# determines if author exists
 def author_exists(author):
+    """Returns whether an author exists"""
     db, c = util.config.start_db()
-    c.execute("SELECT EXISTS(SELECT 1 FROM posts WHERE author = ? LIMIT 1)", (author,))
+    c.execute(
+        "SELECT EXISTS(SELECT 1 FROM posts WHERE author = ? LIMIT 1)",
+        (author,)
+    )
     result = c.fetchone()[0]
     #print (id + " exists? " + str(result == 1))
     util.config.end_db(db)
     return result == 1
 
 
-# adds (creates) a post to posts
-def create_post(id, title, content, author):
+def create_post(title, content, author):
+    """Adds (creates) a post to 'posts'"""
+    post = get_post_id()
     db, c = util.config.start_db()
-    if post_exists(id): # if the post exists already
-        print(":P post *" + id + "* exists try again")
-        pass
-    else:
-        params = (id, title, content, author)
-        c.execute("INSERT INTO posts VALUES (?,?,?,?)", params)
-        print ("create_post: " + str(id) + "\t" + title + "\t" + content + "\t" + author) # see that it runs, comment out later
+    params = (post, title, content, author, int(time.time()))
+    print('create_post: {post}\t{title}\t{content}\t{author}'.format(
+        post=post,
+        title=title,
+        content=content,
+        author=author
+    ))
+    c.execute("INSERT INTO posts VALUES (?,?,?,?,?)", params)
     util.config.end_db(db)
+    return post
 
 
-# gets a post from posts
-def get_post(id):
+def get_post(post):
+    """Gets a post from 'posts'"""
     db, c = util.config.start_db()
-    if post_exists(id): # if the post exists, get it
-        c.execute("SELECT * FROM posts WHERE id = ?;", (id,))
-        rows = c.fetchall()
-        for row in rows:
-            print(row[0], row[1], row[2], row[3])
-            return row[2]
-        #print ("get_post: " + id + "\t" + str(c.fetchall())) # see that it runs, comment out later
-        # print(c.fetchall()) # just printing c.fetchall() for now -- will fix later
-        # should return c.fetchone()
-        # c.fetchall() should only return 1 post
-    else: # if the post doesn't exist, do nothing
-        pass
+    c.execute(
+        "SELECT title, content, author FROM posts WHERE id = ? LIMIT 1",
+        (post,)
+    )
+    result = c.fetchone()
     util.config.end_db(db)
+    return result
 
-
-# gets a title from posts
-def get_title(id):
-    db, c = util.config.start_db()
-    if post_exists(id): # if the post exists, get it
-        c.execute("SELECT * FROM posts WHERE id = ?;", (id,))
-        rows = c.fetchall()
-        for row in rows:
-            print(row[0], row[1], row[2], row[3])
-            return row[1]
-    else:
-        pass
-    util.config.end_db(db)
-    
 
 # gets all of an author's posts from posts
 def get_author_posts(author):
     db, c = util.config.start_db()
-    if author_exists(author): # if the author exists, get all of their posts
-        c.execute("SELECT * FROM posts WHERE author = ?;", (author,))
-        print ("get_post: " + author + "\t" + str(c.fetchall())) # see that it runs, comment out later
-        # print(c.fetchall())
-    else: # if the author doesn't exist
-        print("this ain't it chief")
-        pass
+    c.execute("SELECT id FROM posts WHERE author = ?", (author,))
+    result = c.fetchall()
     util.config.end_db(db)
+    ids = [i[0] for i in result]
+    return ids
 
 
-# deletes a post from posts
 def delete_post(post):
+    """Deletes a post from 'posts'"""
     db, c = util.config.start_db()
     if post_exists(post): # if the post exists, delete it
         c.execute("DELETE FROM posts WHERE id = ?", (post,))
@@ -127,8 +122,8 @@ def delete_post(post):
     util.config.end_db(db)
 
 
-# edits a post from posts
 def edit_post(post, title, content):
+    """Edits a post from 'posts'"""
     db, c = util.config.start_db()
     if post_exists(post): # if the post exists, edit it
         c.execute(
@@ -144,6 +139,7 @@ def edit_post(post, title, content):
 
 
 def render_post(content):
+    """Formats post content from raw text to html"""
     replacements = (
         ('&', '&amp;'),
         ('<', '&lt;'),
@@ -159,11 +155,10 @@ if __name__ == "__main__":
     create_table()
     db_file()
     get_db()
-    create_post("id","title","content","anon")
-    create_post("ads","ads","content","anon")
-    create_post("ads1","title","content","anon")
-    create_post(random.SystemRandom().getrandbits(16),"title","content","anon")
+    create_post('title', 'content', 'anon')
+    create_post('ads', 'content', 'anon')
+    create_post('title', 'content', 'anon')
+    create_post('title', 'content', 'anon')
     print("\nCURRENT DATABASE")
     get_db()
-    # print (time.strftime("%y%m%d%H%M%S") + str(random.randint(10001,100000)))
 

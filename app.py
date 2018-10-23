@@ -11,9 +11,9 @@ app.secret_key = util.accounts.get_salt()
 def index():
     if util.accounts.is_logged_in(session):
         return render_template(
-                    'index_user.html',
-                    user=util.accounts.get_logged_in_user(session)
-                )
+            'index_user.html',
+            user=util.accounts.get_logged_in_user(session)
+        )
     else:
         return render_template('index_anon.html')
 
@@ -47,9 +47,15 @@ def login():
     username = request.form.get('username')
     password = request.form.get('password')
 
+    if 'ret_path' in session:
+        ret_path = session['ret_path']
+        del session['ret_path']
+    else:
+        ret_path = '/'
+
     if util.accounts.auth_user(username, password):
         util.accounts.login_user(session, username)
-        return redirect('/')
+        return redirect(ret_path)
     else:
         flash('Bad username or password')
         return render_template('login.html')
@@ -90,17 +96,18 @@ def logout():
 def create():
     if request.method == 'GET':
         if util.accounts.is_logged_in(session):
-            return render_template('create_v1.html')
+            return render_template('create.html')
         else:
+            # Set return path back here
+            session['ret_path'] = '/create'
             return redirect('/login')
 
     # Get values passed via POST
-    post = util.posts.get_post_id()
     title = request.form.get('title')
     content = request.form.get('content')
     author = util.accounts.get_logged_in_user(session)
 
-    util.posts.create_post(post, title, content, author)
+    post = util.posts.create_post(title, content, author)
     return redirect('/post?p={post}'.format(post=post))
 
 
@@ -108,16 +115,13 @@ def create():
 def post():
     # Get values passed via GET
     post = request.args.get('p')
-    content = util.posts.get_post(post)
-    title = util.posts.get_title(post)
-    #  print(content)
-    #  print(content)
+    title, content, author = util.posts.get_post(post)
     content = util.posts.render_post(content)
-    title = util.posts.render_post(title)
     return render_template(
             'post.html',
             title=title,
-            content=content
+            content=content,
+            author=author
     )
 
 

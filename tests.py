@@ -42,10 +42,9 @@ class TestAccounts(unittest.TestCase):
         self.assertFalse(accounts.user_exists('foo'))
 
 
-class TestAccounts(unittest.TestCase):
+class TestPosts(unittest.TestCase):
     def setUp(self):
         posts.create_table()
-        #  posts.db_file()
 
     def tearDown(self):
         try:
@@ -57,33 +56,36 @@ class TestAccounts(unittest.TestCase):
         self.assertFalse(posts.post_exists('foo'))
 
     def test_author_exists(self):
-        posts.create_post('', '', '', 'anon')
+        posts.create_post('', '', 'anon')
         self.assertTrue(posts.author_exists('anon'))
         self.assertFalse(posts.author_exists('nobody'))
 
     def test_create_post(self):
-        posts.create_post('post', 'title', 'content', 'anon')
-        self.assertTrue(posts.post_exists('post'))
+        post = posts.create_post('title', 'content', 'anon')
+        self.assertTrue(posts.post_exists(post))
 
     def test_get_post(self):
-        posts.get_post('nothing')
-        posts.create_post('foo', 'title', 'content', 'anon')
-        self.assertEqual(posts.get_post('foo'), 'content')
+        self.assertIs(posts.get_post('nothing'), None)
+        post = posts.create_post('title', 'content', 'anon')
+        self.assertEqual(posts.get_post(post), ('title', 'content', 'anon'))
 
-    #  def test_get_author_posts(self):
-        #  posts.get_author_posts('nobody')
-        #  posts.create_post('foo', 'title', 'content', 'anon')
-        #  posts.get_author_posts('anon')
+    def test_get_author_posts(self):
+        self.assertEqual(posts.get_author_posts('nobody'), [])
+        self.assertEqual(posts.get_author_posts('user'), [])
+        posts.create_post('title', 'content', 'user')
+        ids = posts.get_author_posts('user')
+        self.assertEqual(len(ids), 1)
+        self.assertEqual(posts.get_post(ids[0]), ('title', 'content', 'user'))
 
     def test_delete_post(self):
         posts.delete_post('fake_post')
-        posts.create_post('foo', 'title', 'content', 'anon')
-        self.assertTrue(posts.post_exists('foo'))
+        post = posts.create_post('title', 'content', 'anon')
+        self.assertTrue(posts.post_exists(post))
         posts.delete_post('foo')
         self.assertFalse(posts.post_exists('foo'))
 
     def test_edit_post(self):
-        posts.create_post('foo', 'title', 'content', 'anon')
+        posts.create_post('title', 'content', 'anon')
         posts.edit_post('ads1', 'hi','bye')
         posts.edit_post('oops', 'hi','bye')
 
