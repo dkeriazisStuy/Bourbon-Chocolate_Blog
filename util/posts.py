@@ -97,6 +97,7 @@ def get_post(post):
     )
     result = c.fetchone()
     util.config.end_db(db)
+    print(result)
     return result
 
 
@@ -104,6 +105,15 @@ def get_post(post):
 def get_author_posts(author):
     db, c = util.config.start_db()
     c.execute("SELECT id FROM posts WHERE author = ?", (author,))
+    result = c.fetchall()
+    util.config.end_db(db)
+    ids = [i[0] for i in result]
+    return ids
+
+
+def get_all_posts():
+    db, c = util.config.start_db()
+    c.execute("SELECT id FROM posts")
     result = c.fetchall()
     util.config.end_db(db)
     ids = [i[0] for i in result]
