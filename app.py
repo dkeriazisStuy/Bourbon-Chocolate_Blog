@@ -109,12 +109,14 @@ def post():
     # Get values passed via GET
     post = request.args.get('p')
     content = util.posts.get_post(post)
+    title = util.posts.get_title(post)
     #  print(content)
     #  print(content)
     content = util.posts.render_post(content)
+    title = util.posts.render_post(title)
     return render_template(
             'post.html',
-            title='Titles not Implemented Yet',
+            title=title,
             content=content
     )
 
