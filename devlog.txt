@@ -273,3 +273,10 @@ karenL -- 2018-10-22 00:27
 README.md
 ==============================================================
 
+vincentL -- 2018-10-23 01:43
+--------------------------------------------------------------
+-added breaks to indicate a navbar and footer
+-got rid of css in base.html
+     -some css in other templates still needs to be taken out
+==============================================================
+
