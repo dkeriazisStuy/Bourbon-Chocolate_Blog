@@ -1,20 +1,22 @@
 {% extends "base.html" %}
 
 {% block title %}
-Edit blog
-{% endblock %} 
+{{title}}
+{% endblock %}
 
 {% block content %}
-<textarea name = "test" rows="100" cols="100">
-  {% block text %}
+    <form action="/create" method = "POST">
+    Title: <br>
+    <input type="text" name="post_title">
+    <textarea name="post_title" rows="1" cols="50">
+    <br> Post Content: <br>
 
-  {% endblock %}
-</textarea>
+    <textarea name="post_content" rows="10" cols="50">
+      {% block old_post_content %}
 
-    {% set msgs = get_flashed_messages() %}
-    {% for each in msgs %}
-   <font color="red"> {{ each }} </font>
-    <br>
-    {% endfor %}
-    
+      {% endblock %}    
+    </textarea>
+        <br>
+        <button type="submit"> Create post </button>
+    </form>
 {% endblock %}
