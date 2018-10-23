@@ -10,12 +10,8 @@
         <input type="text" name="post_title">
     <br> Post Content: <br>
 
-    <textarea name="content" rows="10" cols="50">
-      {% block old_post_content %}
-
-      {% endblock %}    
-    </textarea>
+    <textarea name="content" rows="10" cols="50">{{old_post}}</textarea>
         <br>
-        <button type="submit"> Create post </button>
+        <button type="submit">{{button_name}}</button>
     </form>
 {% endblock %}
