@@ -96,7 +96,7 @@ def logout():
 def create():
     if request.method == 'GET':
         if util.accounts.is_logged_in(session):
-            return render_template('create.html')
+            return render_template('create_v1.html')
         else:
             # Set return path back here
             session['ret_path'] = '/create'
