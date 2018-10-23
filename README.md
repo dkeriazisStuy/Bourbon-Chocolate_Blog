@@ -1,12 +1,16 @@
 # Bourbon Chocolate-Blog
 
+## What now?
+
+A blog! Why yes it's a we*b* *log* where you can show your digital life to others. Post personal stories, tell funny jokes, do whatever however.
+
 ## Prerequisites
 * Python3
 * Virtual Environment
 * Flask
 
 ### Install
-Install Flask:
+Install Flask Inside Virtual Environment:
 ```
 $pip install flask
 $pip install wheel
@@ -47,3 +51,4 @@ Deactivate your virtual environment
 ```
 deactivate
 ```
+
