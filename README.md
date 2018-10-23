@@ -5,7 +5,7 @@
 * Virtual Environment
 * Flask
 
-#### Install
+### Install
 Install Flask:
 ```
 $pip install flask
