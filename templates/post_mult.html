@@ -7,18 +7,12 @@
 {% block content %}
     {% for post_id in ids %}
     <div>
-          {{get_post(post_id)[0]}}<br>
-          <p style="
-          border:1px;
-          border-radius:10px;
-          border-style:solid;
-          border-color:#B3B3B3;
-          padding: 1em;
-          width: 750px;">
+      <h3> {{get_post(post_id)[0]}} </h3>
           {% autoescape false %}
-              {{get_post(post_id)[1]}}
+          {{get_post(post_id)[1]}}
+	  <br>	 
           {% endautoescape %}
-          </p>
+         
     </div>
     {% endfor %}
 {% endblock %}

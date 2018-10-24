@@ -7,11 +7,11 @@
 {% block content %}
     <form action="/create" method = "POST">
     Title: <br>
-    <input type="text" name="post_title">
-    <textarea name="post_title" rows="1" cols="50">
-    <br> Post Content: <br>
+    <input type="text" name="post_title" value = {{old_post_title}}>
 
-    <textarea name="post_content" rows="10" cols="50">
+      <br> Post Content: <br>
+
+    <textarea name="post_content" rows="10" cols="50" >
       {% block old_post_content %}
 
       {% endblock %}    
