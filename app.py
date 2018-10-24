@@ -28,11 +28,23 @@ def blog():
     #  return render_template('search.html')
 
 
+# not yet working!!
+# warning: all untested code
 @app.route('/edit')
 def edit():
     if not util.accounts.is_logged_in(session):
         return redirect('/')
-    return render_template('edit.html')
+    post = request.args.get('p')
+    title, content, author = util.posts.get_post(post)
+    if not(util.accounts.get_logged_in_user(session) == author):
+        return redirect('/')
+    content = util.posts.render_post(content)
+    return render_template(
+            'edit.html',
+            old_post_title=title,
+            old_post_content=content,
+            author=author
+    )
 
 
 @app.route('/login', methods=['GET', 'POST'])
