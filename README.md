@@ -29,7 +29,7 @@ $source my_folder/bin/activate
 
 Windows:
 ```
-C:\ placeholder/script/activate
+C:\ my_folder\script\activate
 ```
 
 ### Clone the repository
