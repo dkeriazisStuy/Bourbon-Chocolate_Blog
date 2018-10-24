@@ -285,3 +285,12 @@ rachelN -- 2018-10-22 17:56
 Added get_all_posts()
 ==============================================================
 
+rachelN -- 2018-10-22 21:55
+--------------------------------------------------------------
+- added post_mult.html -- template for multiple posts (for /<author> and home).
+- added comments to posts.py
+- removed testing files from util/
+- added /<author> route 
+      - e.g. http://127.0.0.1:5000/anon
+==============================================================
+
