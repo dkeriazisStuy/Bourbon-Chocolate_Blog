@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{title}} - {{author}}
+{% endblock %}
+
+{% block content %}
+    {% for post_id in ids %}
+    <div>
+          {{get_post(post_id)[0]}}<br>
+          <p style="
+          border:1px;
+          border-radius:10px;
+          border-style:solid;
+          border-color:#B3B3B3;
+          padding: 1em;
+          width: 750px;">
+          {% autoescape false %}
+              {{get_post(post_id)[1]}}
+          {% endautoescape %}
+          </p>
+    </div>
+    {% endfor %}
+{% endblock %}
