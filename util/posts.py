@@ -6,18 +6,11 @@ import util.config
 
 
 def get_db():
+    """Prints all rows in posts"""
     db, c = util.config.start_db()
     c.execute("SELECT * FROM posts")
     print(c.fetchall())
     util.config.end_db(db)
-
-
-def db_file():
-    db, c = util.config.start_db()
-    c.execute("PRAGMA database_list")
-    rows = c.fetchall()
-    for row in rows:
-        print(row[0], row[1], row[2])
 
 
 def create_table():
@@ -103,15 +96,18 @@ def get_post(post):
 
 # gets all of an author's posts from posts
 def get_author_posts(author):
+    """Returns ids of all posts by an author"""
     db, c = util.config.start_db()
     c.execute("SELECT id FROM posts WHERE author = ?", (author,))
     result = c.fetchall()
     util.config.end_db(db)
     ids = [i[0] for i in result]
+    print(ids)
     return ids
 
 
 def get_all_posts():
+    """Returns ids of all posts"""
     db, c = util.config.start_db()
     c.execute("SELECT id FROM posts")
     result = c.fetchall()
