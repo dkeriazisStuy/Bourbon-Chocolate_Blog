@@ -1,10 +1,14 @@
 import os.path  # Used for file locations
 import sqlite3
+from string import ascii_letters, digits
 
 CUR_DIR = os.path.dirname(__file__)  # Absolute path to current directory
 ROOT_DIR = os.path.join(CUR_DIR, os.path.pardir)  # Location of root directory
 DATA_DIR = os.path.join(ROOT_DIR, 'data')  # Location of data directory
 DB_FILE = os.path.join(DATA_DIR, 'data.db')  # Location of database file
+
+# RFC 4648 "URL and Filename safe" Base 64 Alphabet
+CHARSET = ascii_letters + digits + '-_'
 
 
 def use_test_db():

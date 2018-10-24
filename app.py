@@ -81,7 +81,27 @@ def signup():
         flash('Passwords do not match')
         return render_template('signup.html')
     else:
-        util.accounts.add_user(username, password)
+        if util.accounts.valid_password(password):
+            password_error = ''
+        else:
+            password_error = 'Please enter a password ' \
+                '8 or more characters in length.'
+
+        if util.accounts.valid_username(username):
+            username_error = ''
+        else:
+            username_error = \
+                'Username must be between 1 - 32 characters. ' \
+                'Only letters, numbers, ' \
+                'hyphens (-), and underscores (_) are allowed.'
+
+        account_created = util.accounts.add_user(username, password)
+        if not account_created:  # Account not created properly
+            return render_template(
+                'signup.html',
+                password_error=password_error,
+                username_error=username_error
+            )
         util.accounts.login_user(session, username)
         return redirect('/')
 
@@ -96,7 +116,10 @@ def logout():
 def create():
     if request.method == 'GET':
         if util.accounts.is_logged_in(session):
-            return render_template('create_v1.html')
+            return render_template(
+                'create_v1.html',
+                button_name='Create Post'
+            )
         else:
             # Set return path back here
             session['ret_path'] = '/create'
@@ -107,7 +130,14 @@ def create():
     content = request.form.get('content')
     author = util.accounts.get_logged_in_user(session)
 
+    if title is None:
+        title = ''
+    if content is None:
+        content = ''
+
     post = util.posts.create_post(title, content, author)
+    if post is None:  # Did not properly create post
+        return redirect('/create')
     return redirect('/post?p={post}'.format(post=post))
 
 

@@ -21,20 +21,19 @@ class TestAccounts(unittest.TestCase):
 
     def test_add_user(self):
         self.assertFalse(accounts.user_exists('foo'))
-        accounts.add_user('foo', 'bar')
-        self.assertTrue(accounts.user_exists('foo'))
-        accounts.add_user('new_user', 'bar')
-        self.assertTrue(accounts.user_exists('new_user'))
+        self.assertFalse(accounts.add_user('foo', '123'))
+        self.assertTrue(accounts.add_user('bar', '12345678'))
+        self.assertTrue(accounts.user_exists('bar'))
 
     def test_auth_user(self):
-        accounts.add_user('foo', 'bar')
-        self.assertTrue(accounts.auth_user('foo', 'bar'))
+        accounts.add_user('foo', '12345678')
+        self.assertTrue(accounts.auth_user('foo', '12345678'))
         self.assertFalse(accounts.auth_user('foo', 'bad_pass'))
         self.assertFalse(accounts.auth_user('not_a_user', 'bar'))
         self.assertFalse(accounts.auth_user('not_a_user', 'not_a_pass'))
 
     def test_remove_user(self):
-        accounts.add_user('foo', 'bar')
+        accounts.add_user('foo', '12345678')
         self.assertTrue(accounts.user_exists('foo'))
         accounts.remove_user('foo')
         self.assertFalse(accounts.user_exists('foo'))

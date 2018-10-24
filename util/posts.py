@@ -1,7 +1,6 @@
 import random
 import sqlite3
 import time
-from string import ascii_letters, digits
 import util.config
 
 
@@ -33,10 +32,10 @@ def create_table():
 
 def get_post_id():
     """Returns a random post id"""
-    # RFC 4648 "URL and Filename safe" Base 64 Alphabet
-    charset = ascii_letters + digits + '-_'
     id_length = 16
-    return ''.join(random.choice(charset) for _ in range(id_length))
+    return ''.join(
+        random.choice(util.config.CHARSET) for _ in range(id_length)
+    )
 
 
 def post_exists(post):
@@ -47,7 +46,7 @@ def post_exists(post):
         (post,)
     )
     result = c.fetchone()[0]
-    #print (post + " exists? " + str(result == 1))
+    # print (post + " exists? " + str(result == 1))
     util.config.end_db(db)
     return result == 1
 
@@ -60,7 +59,7 @@ def author_exists(author):
         (author,)
     )
     result = c.fetchone()[0]
-    #print (id + " exists? " + str(result == 1))
+    # print (id + " exists? " + str(result == 1))
     util.config.end_db(db)
     return result == 1
 
@@ -70,6 +69,8 @@ def create_post(title, content, author):
     post = get_post_id()
     db, c = util.config.start_db()
     params = (post, title, content, author, int(time.time()))
+    if title is None or content is None or author is None:
+        return None
     print('create_post: {post}\t{title}\t{content}\t{author}'.format(
         post=post,
         title=title,
@@ -118,30 +119,34 @@ def get_all_posts():
 
 def delete_post(post):
     """Deletes a post from 'posts'"""
-    db, c = util.config.start_db()
     if post_exists(post): # if the post exists, delete it
+        db, c = util.config.start_db()
         c.execute("DELETE FROM posts WHERE id = ?", (post,))
+        util.config.end_db(db)
         print("delete_post: " + post) # see that it runs, comment out later
+        return True
     else: # if the post doesn't exist
         print(":P post " + post + " doesn't exist")
-        pass
-    util.config.end_db(db)
+        return False
 
 
 def edit_post(post, title, content):
     """Edits a post from 'posts'"""
-    db, c = util.config.start_db()
+    if post is None or title is None or content is None:
+        return False
     if post_exists(post): # if the post exists, edit it
+        db, c = util.config.start_db()
         c.execute(
             "UPDATE posts SET title = (?), content = (?)  WHERE id = (?)",
             (title, content, post)
         )
+        util.config.end_db(db)
         # see that it runs, comment out later
         #  print("edited: " + post + "\t" + title + "\t" + content)
+        return True
     else: # if the post doesn't exist
         #  print(":P post " + post + " doesn't exist")
-        pass
-    util.config.end_db(db)
+        return False
 
 
 def render_post(content):

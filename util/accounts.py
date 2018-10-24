@@ -41,8 +41,33 @@ def get_salt():
     return os.urandom(32)
 
 
+def valid_username(username):
+    if username is None:  # SQLite integrity check
+        return False
+    if len(username) > 32:  # Arbitrary length cap
+        return False
+    if len(username) < 1:  # Not-as-arbitrary length minimum
+        return False
+    for i in username:
+        if i not in config.CHARSET:
+            return False
+    return True
+
+
+def valid_password(password):
+    if password is None:  # SQLite integrity check
+        return False
+    if len(password) < 8:  # Arbitrary length minimum
+        return False
+    return True
+
+
 def add_user(username, password):
     db, c = config.start_db()
+    if not valid_username(username):
+        return False
+    if not valid_password(password):
+        return False
     salt = get_salt()
     pass_hash = hash_pass(password, salt)
     c.execute(
@@ -50,6 +75,7 @@ def add_user(username, password):
         (username, pass_hash, salt)
     )
     config.end_db(db)
+    return True
 
 
 def auth_user(username, password):  # Not yet implemented

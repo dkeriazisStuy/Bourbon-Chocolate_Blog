@@ -6,14 +6,21 @@ Signup
 
   {% block content %}
     <form action="/signup" method = "POST">
-    Enter a new username: <br>
-        <input type="text" name="username">
-    <br> Password: <br>
-        <input type="password" name="password">
-        </br>
-	Confirm password: <br>
-	<input type="password" name="confirm">
-        <button type="submit"> Log In </button>
+      Enter a new username: <br>
+      <input type="text" name="username"> <br>
+      <font color="red"> {{username_error}} </font>
+      {% if username_error %}
+        <br>
+      {% endif %}
+      Password: <br>
+      <input type="password" name="password"> </br>
+      <font color="red"> {{password_error}} </font>
+      {% if password_error %}
+        <br>
+      {% endif %}
+      Confirm password: <br>
+      <input type="password" name="confirm">
+      <button type="submit"> Log In </button>
     </form>
 
     {% set msgs = get_flashed_messages() %}
