@@ -1,5 +1,7 @@
 # Bourbon Chocolate-Blog
 
+Team Bourbon Chocolate -- Daniel Keriazis, Karen Li, Rachel Ng, Vincent Lin
+
 ## What now?
 
 A blog! Why yes it's a we*b* *log* where you can show your digital life to others. Post personal stories, tell funny jokes, do whatever however.
