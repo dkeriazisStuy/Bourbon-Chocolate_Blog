@@ -290,7 +290,13 @@ rachelN -- 2018-10-22 21:55
 - added post_mult.html -- template for multiple posts (for /<author> and home).
 - added comments to posts.py
 - removed testing files from util/
-- added /<author> route 
+- added /<author> route -- has all of <author>'s posts
       - e.g. http://127.0.0.1:5000/anon
+==============================================================
+
+rachelN -- 2018-10-22 21:55
+--------------------------------------------------------------
+Added /home route -- has all posts
+Fun fact: they're out of order
 ==============================================================
 
