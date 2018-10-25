@@ -88,7 +88,7 @@ etc:
 
 rachelN -- 2018-10-17 21:45
 --------------------------------------------------------------
-Standardized code
+Standardized code:
     make_table() -> create_table() (also changed in previous devlog entry)
     util/data.db -> data/data.db
 ==============================================================
@@ -287,11 +287,11 @@ Added get_all_posts()
 
 rachelN -- 2018-10-23 21:55
 --------------------------------------------------------------
-- added post_mult.html -- template for multiple posts (for /<author> and home).
-- added comments to posts.py
-- removed testing files from util/
-- added /<author> route -- has all of <author>'s posts
-      - e.g. http://127.0.0.1:5000/anon
+Added post_mult.html -- template for multiple posts (for /<author> and home).
+Added comments to posts.py
+Removed testing files from util/
+Added /<author> route -- has all of <author>'s posts
+    - e.g. http://127.0.0.1:5000/anon
 ==============================================================
 
 rachelN -- 2018-10-23 22:09
@@ -325,12 +325,11 @@ karenL -- 2018-10-25 13:21
 
 ==============================================================
 
-rachelN -- 2018-10-25 18:21
+rachelN -- 2018-10-25 19:11
 --------------------------------------------------------------
 Changed links to /<some>/<thing> format
     - e.g. /post/<post_id>
            /edit/<post_id>
 No longer shows edit links if you're not the author
+Removed hidden field from edit.html
 ==============================================================
-
-
