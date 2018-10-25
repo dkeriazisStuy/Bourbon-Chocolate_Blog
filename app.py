@@ -9,13 +9,24 @@ app.secret_key = util.accounts.get_salt()
 
 @app.route('/')
 def index():
+    def get_post(post_id):
+        print(post_id)
+        #print(util.posts.get_post(post_id))
+        return util.posts.get_post(post_id)
+    ids = util.posts.get_all_posts()
     if util.accounts.is_logged_in(session):
         return render_template(
             'index_user.html',
+            ids=ids,
+            get_post = get_post,
             user=util.accounts.get_logged_in_user(session)
         )
     else:
-        return render_template('index_anon.html')
+        return render_template(
+            'index_anon.html',
+            ids=ids,
+            get_post = get_post,
+        )
 
 
 @app.route('/blog')
@@ -196,21 +207,6 @@ def author(author):
             ids=ids,
             get_post = get_post
     )
-
-@app.route('/home')
-def home():
-    # Get values passed via GET
-    ids = util.posts.get_all_posts()
-    def get_post(post_id):
-        print(post_id)
-        #print(util.posts.get_post(post_id))
-        return util.posts.get_post(post_id)
-    return render_template(
-            'post_mult.html',
-            ids=ids,
-            get_post = get_post
-    )
-
 
 if __name__ == '__main__':
     util.posts.create_table()
