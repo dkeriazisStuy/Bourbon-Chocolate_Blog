@@ -6,7 +6,6 @@
 
 {% block content %}
    <form action="/edit/{{post}}" method = "POST">
-   <input type="hidden" name="post" value="{{post}}">
 
     Title: <br>
     <input type="text" name="post_title" value = {{old_post_title}}>
