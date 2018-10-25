@@ -309,6 +309,7 @@ Added integrity checks
 rachelN -- 2018-10-24 21:30
 --------------------------------------------------------------
 Added /edit -- edits posts
+    - uses a hidden input field to pass along the post's id
 Added links to edit page and author to posts_mult.html
 Moved all posts to root route, removed /home route
 /<author> -> /author/<author> for more clarity

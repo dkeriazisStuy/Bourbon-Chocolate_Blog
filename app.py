@@ -11,7 +11,6 @@ app.secret_key = util.accounts.get_salt()
 def index():
     def get_post(post_id):
         print(post_id)
-        #print(util.posts.get_post(post_id))
         return util.posts.get_post(post_id)
     ids = util.posts.get_all_posts()
     if util.accounts.is_logged_in(session):
@@ -56,10 +55,11 @@ def edit():
                 old_post_content=content,
                 author=author
             )
-        else: # return to root route if not the author
+        else:
             print (util.accounts.get_logged_in_user(session) + "\n" + author)
             return redirect('/')
 
+    # Get values passed via POST
     title = request.form.get('post_title')
     content = request.form.get('post_content')
     post = request.form.get('post')
@@ -197,7 +197,6 @@ def post():
 
 @app.route('/author/<author>')
 def author(author):
-    # Get values passed via GET
     ids = util.posts.get_author_posts(author)
     def get_post(post_id):
         print(util.posts.get_post(post_id))
