@@ -195,7 +195,7 @@ def post():
     )
 
 
-@app.route('/<author>')
+@app.route('/author/<author>')
 def author(author):
     # Get values passed via GET
     ids = util.posts.get_author_posts(author)

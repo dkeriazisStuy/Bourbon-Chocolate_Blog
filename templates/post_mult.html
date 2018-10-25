@@ -8,7 +8,7 @@
     {% for post_id in ids %}
     <div>
       <h3> {{get_post(post_id)[0]}} </h3>
-      <a href="/edit?p={{post_id}}">Edit</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/{{get_post(post_id)[2]}}">{{get_post(post_id)[2]}}</a>
+      <a href="/edit?p={{post_id}}">Edit</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/author/{{get_post(post_id)[2]}}">{{get_post(post_id)[2]}}</a>
       <br>
           {% autoescape false %}
           {{get_post(post_id)[1]}}
