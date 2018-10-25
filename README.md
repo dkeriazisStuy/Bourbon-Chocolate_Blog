@@ -54,3 +54,9 @@ Deactivate your virtual environment
 deactivate
 ```
 
+## To-Do
+
+* Post sorting
+* Markdown
+* Searching
+

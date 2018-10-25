@@ -1,7 +1,7 @@
 {% for post_id, title, content, author, timestamp in posts %}
 <div>
   <hr>
-        <h3> {{title}} </h3>
+        <h3> <a href="/post/{{post_id}}"> {{title}} </a> </h3>
         <table border="1"> <tr> <td>
             {% autoescape false %}
                 {{content}}

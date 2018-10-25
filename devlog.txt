@@ -333,3 +333,11 @@ Changed links to /<some>/<thing> format
 No longer shows edit links if you're not the author
 Removed hidden field from edit.html
 ==============================================================
+
+danielK -- 2018-10-25 19:41
+--------------------------------------------------------------
+* Added links for individual posts from post_list.html
+* Updated README with To-Do section
+* Code refactoring in app.py
+==============================================================
+

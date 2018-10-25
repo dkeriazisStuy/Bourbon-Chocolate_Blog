@@ -13,18 +13,16 @@ def index():
     post_list = [util.posts.get_formatted_post(post_id) for post_id in ids]
     print(post_list)
     if util.accounts.is_logged_in(session):
-        print('Logged in!')
         return render_template(
             'index_user.html',
             posts=post_list,
             logged_in=util.accounts.get_logged_in_user(session)
         )
     else:
-        print('Not logged in!')
         return render_template(
             'index_anon.html',
             posts=post_list,
-            logged_in=""
+            logged_in=None
         )
 
 
@@ -179,11 +177,13 @@ def create():
 
 @app.route('/post/<post>')
 def post(post):
-    # Get values passed via GET
     post_list = [util.posts.get_formatted_post(post)]
+    title, _, author, _ = util.posts.get_post(post)
     return render_template(
         'post_mult.html',
-        posts=post_list
+        posts=post_list,
+        title=title,
+        author=author
     )
 
 
@@ -191,13 +191,10 @@ def post(post):
 def author(author):
     ids = util.posts.get_author_posts(author)
     post_list = [util.posts.get_formatted_post(post_id) for post_id in ids]
-    logged_in = ""
-    if util.accounts.is_logged_in(session):
-        logged_in=util.accounts.get_logged_in_user(session)
     return render_template(
         'post_mult.html',
         posts=post_list,
-        logged_in=logged_in
+        logged_in=util.accounts.get_logged_in_user(session)
     )
 
 

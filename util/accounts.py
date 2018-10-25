@@ -109,7 +109,10 @@ def logout_user(session):
 
 
 def get_logged_in_user(session):
-    return session['user']
+    if is_logged_in(session):
+        return session['user']
+    else:
+        return None
 
 
 def remove_user(username):
