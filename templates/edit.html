@@ -5,18 +5,15 @@
 {% endblock %}
 
 {% block content %}
-    <form action="/create" method = "POST">
+   <form action="/edit" method = "POST">
+   <input type="hidden" name="post" value="{{post}}">
+
     Title: <br>
     <input type="text" name="post_title" value = {{old_post_title}}>
+    <br> Post Content: <br>
 
-      <br> Post Content: <br>
-
-    <textarea name="post_content" rows="10" cols="50" >
-      {% block old_post_content %}
-
-      {% endblock %}    
-    </textarea>
+    <textarea name="post_content" rows="10" cols="50" >{% block old_post_content %}{{ old_post_content }}{% endblock %}</textarea>
         <br>
-        <button type="submit"> Create post </button>
+        <button type="submit">{{button_name}}</button>
     </form>
 {% endblock %}

@@ -28,23 +28,40 @@ def blog():
     #  return render_template('search.html')
 
 
-# not yet working!!
-# warning: all untested code
-@app.route('/edit')
+@app.route('/edit', methods=['GET', 'POST'])
 def edit():
+    post = request.args.get('p')
     if not util.accounts.is_logged_in(session):
         return redirect('/')
-    post = request.args.get('p')
-    title, content, author = util.posts.get_post(post)
-    if not(util.accounts.get_logged_in_user(session) == author):
-        return redirect('/')
-    content = util.posts.render_post(content)
-    return render_template(
-            'edit.html',
-            old_post_title=title,
-            old_post_content=content,
-            author=author
-    )
+    if request.method == 'GET':
+        title, content, author = util.posts.get_post(post)
+        content = util.posts.render_post(content)
+        if util.accounts.get_logged_in_user(session) == author:
+            return render_template(
+                'edit.html',
+                button_name='Edit Post',
+                post = post,
+                old_post_title=title,
+                old_post_content=content,
+                author=author
+            )
+        else: # return to root route if not the author
+            print (util.accounts.get_logged_in_user(session) + "\n" + author)
+            return redirect('/')
+
+    title = request.form.get('post_title')
+    content = request.form.get('post_content')
+    post = request.form.get('post')
+
+    if title is None:
+        title = ''
+    if content is None:
+        content = ''
+
+    util.posts.edit_post(post,title,content)
+    return redirect('/post?p={post}'.format(post=post))
+
+    
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -185,7 +202,8 @@ def home():
     # Get values passed via GET
     ids = util.posts.get_all_posts()
     def get_post(post_id):
-        print(util.posts.get_post(post_id))
+        print(post_id)
+        #print(util.posts.get_post(post_id))
         return util.posts.get_post(post_id)
     return render_template(
             'post_mult.html',
