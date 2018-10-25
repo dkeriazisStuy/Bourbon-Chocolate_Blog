@@ -14,14 +14,15 @@ Signup
       {% endif %}
       Password: <br>
       <input type="password" name="password"> </br>
-      <font color="red"> {{password_error}} </font>
-      {% if password_error %}
-        <br>
-      {% endif %}
       Confirm password: <br>
       <input type="password" name="confirm">
       <button type="submit"> Log In </button>
     </form>
+
+    <font color="red"> {{password_error}} </font>
+    {% if password_error %}
+    <br>
+    {% endif %}
 
     {% set msgs = get_flashed_messages() %}
     {% for each in msgs %}

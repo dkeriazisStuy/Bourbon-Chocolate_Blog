@@ -1,15 +1,16 @@
 {% for post_id, title, content, author, timestamp in posts %}
-    <div>
+<div>
+  <hr>
         <h3> {{title}} </h3>
-        <a href="/edit?p={{post_id}}">Edit</a>
-        &nbsp;&nbsp;&nbsp;&nbsp;
-        <a href="/author/{{author}}">
-            {{author}}
-        </a> <br>
         <table border="1"> <tr> <td>
             {% autoescape false %}
                 {{content}}
             {% endautoescape %}
         </td> </tr> </table>
-    </div>
+	<a href="/edit?p={{post_id}}">Edit</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="/author/{{author}}">
+          {{author}}
+        </a> <br>
+</div>
 {% endfor %}

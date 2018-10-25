@@ -13,11 +13,15 @@ Login
       <br>
       <button type="submit"> Log In </button>
     </form>
+    <br>
 
     {% set msgs = get_flashed_messages() %}
     {% for msg in msgs %}
       <font color="red"> {{ msg }} </font>
     <br>
     {% endfor %}
+    <br>
+    Don't have an account? <br>
+    <a href="/signup">Create one!</a> <br>
 
 {% endblock %}

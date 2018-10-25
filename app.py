@@ -16,7 +16,8 @@ def index():
         print('Logged in!')
         return render_template(
             'index_user.html',
-            posts=post_list
+            posts=post_list,
+            logged_in=util.accounts.get_logged_in_user(session)
         )
     else:
         print('Not logged in!')
@@ -42,8 +43,8 @@ def edit():
     if not util.accounts.is_logged_in(session):
         return redirect('/')
     if request.method == 'GET':
-        title, content, author = util.posts.get_post(post)
-        content = util.posts.render_post(content)
+        title, content, author, _ = util.posts.get_post(post)
+        # content = util.posts.render_post(content)
         if util.accounts.get_logged_in_user(session) == author:
             return render_template(
                 'edit.html',
