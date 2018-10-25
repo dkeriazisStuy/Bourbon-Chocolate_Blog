@@ -7,10 +7,11 @@
                 {{content}}
             {% endautoescape %}
         </td> </tr> </table>
+	{% if author == logged_in %}
 	<a href="/edit/{{post_id}}">Edit</a>
         &nbsp;&nbsp;&nbsp;&nbsp;
-        <a href="/author/{{author}}">
-          {{author}}
-        </a> <br>
+	{% endif %}
+        <a href="/author/{{author}}">{{author}}</a>
+	<br>
 </div>
 {% endfor %}

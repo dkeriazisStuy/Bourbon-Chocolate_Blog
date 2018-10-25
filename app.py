@@ -23,7 +23,8 @@ def index():
         print('Not logged in!')
         return render_template(
             'index_anon.html',
-            posts=post_list
+            posts=post_list,
+            logged_in=""
         )
 
 
@@ -190,21 +191,13 @@ def post(post):
 def author(author):
     ids = util.posts.get_author_posts(author)
     post_list = [util.posts.get_formatted_post(post_id) for post_id in ids]
+    logged_in = ""
+    if util.accounts.is_logged_in(session):
+        logged_in=util.accounts.get_logged_in_user(session)
     return render_template(
         'post_mult.html',
-        posts=post_list
-    )
-
-
-@app.route('/home')
-def home():
-    # Get values passed via GET
-    ids = util.posts.get_all_posts()
-    post_list = [util.posts.get_formatted_post(post_id) for post_id in ids]
-    print(post_list)
-    return render_template(
-        'post_mult.html',
-        posts=post_list
+        posts=post_list,
+        logged_in=logged_in
     )
 
 
