@@ -86,16 +86,21 @@ def get_post(post):
     """Gets a post from 'posts'"""
     db, c = util.config.start_db()
     c.execute(
-        "SELECT title, content, author FROM posts WHERE id = ? LIMIT 1",
+        "SELECT title, content, author, time FROM posts WHERE id = ? LIMIT 1",
         (post,)
     )
     result = c.fetchone()
     util.config.end_db(db)
-    print(result)
     return result
 
 
-# gets all of an author's posts from posts
+def get_formatted_post(post):
+    """Gets a post with proper formatting"""
+    title, content, author, timestamp = get_post(post)
+    content = render_post(content)
+    return post, title, content, author, timestamp
+
+
 def get_author_posts(author):
     """Returns ids of all posts by an author"""
     db, c = util.config.start_db()

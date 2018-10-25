@@ -9,22 +9,20 @@ app.secret_key = util.accounts.get_salt()
 
 @app.route('/')
 def index():
-    def get_post(post_id):
-        print(post_id)
-        return util.posts.get_post(post_id)
     ids = util.posts.get_all_posts()
+    post_list = [util.posts.get_formatted_post(post_id) for post_id in ids]
+    print(post_list)
     if util.accounts.is_logged_in(session):
+        print('Logged in!')
         return render_template(
             'index_user.html',
-            ids=ids,
-            get_post = get_post,
-            user=util.accounts.get_logged_in_user(session)
+            posts=post_list
         )
     else:
+        print('Not logged in!')
         return render_template(
             'index_anon.html',
-            ids=ids,
-            get_post = get_post,
+            posts=post_list
         )
 
 
@@ -71,8 +69,6 @@ def edit():
 
     util.posts.edit_post(post,title,content)
     return redirect('/post?p={post}'.format(post=post))
-
-    
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -185,27 +181,34 @@ def create():
 def post():
     # Get values passed via GET
     post = request.args.get('p')
-    title, content, author = util.posts.get_post(post)
-    content = util.posts.render_post(content)
+    post_list = [util.posts.get_formatted_post(post)]
     return render_template(
-            'post.html',
-            title=title,
-            content=content,
-            author=author
+        'post_mult.html',
+        posts=post_list
     )
 
 
 @app.route('/author/<author>')
 def author(author):
     ids = util.posts.get_author_posts(author)
-    def get_post(post_id):
-        print(util.posts.get_post(post_id))
-        return util.posts.get_post(post_id)
+    post_list = [util.posts.get_formatted_post(post_id) for post_id in ids]
     return render_template(
-            'post_mult.html',
-            ids=ids,
-            get_post = get_post
+        'post_mult.html',
+        posts=post_list
     )
+
+
+@app.route('/home')
+def home():
+    # Get values passed via GET
+    ids = util.posts.get_all_posts()
+    post_list = [util.posts.get_formatted_post(post_id) for post_id in ids]
+    print(post_list)
+    return render_template(
+        'post_mult.html',
+        posts=post_list
+    )
+
 
 if __name__ == '__main__':
     util.posts.create_table()

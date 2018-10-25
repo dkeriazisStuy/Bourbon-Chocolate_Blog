@@ -5,12 +5,5 @@
 {% endblock %}
 
 {% block content %}
-<div>
-  {{title}}<br>
-  <p>
-      {% autoescape false %}
-          {{content}}
-      {% endautoescape %}
-  </p> 
-</div>
+    {% include "post_list.html" %}
 {% endblock %}

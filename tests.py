@@ -1,5 +1,6 @@
 import unittest
 import os
+import time
 import util.config as config
 import util.accounts as accounts
 import util.posts as posts
@@ -65,16 +66,24 @@ class TestPosts(unittest.TestCase):
 
     def test_get_post(self):
         self.assertIs(posts.get_post('nothing'), None)
+        timestamp = int(time.time())
         post = posts.create_post('title', 'content', 'anon')
-        self.assertEqual(posts.get_post(post), ('title', 'content', 'anon'))
+        self.assertEqual(
+            posts.get_post(post),
+            ('title', 'content', 'anon', timestamp)
+        )
 
     def test_get_author_posts(self):
         self.assertEqual(posts.get_author_posts('nobody'), [])
         self.assertEqual(posts.get_author_posts('user'), [])
+        timestamp = int(time.time())
         posts.create_post('title', 'content', 'user')
         ids = posts.get_author_posts('user')
         self.assertEqual(len(ids), 1)
-        self.assertEqual(posts.get_post(ids[0]), ('title', 'content', 'user'))
+        self.assertEqual(
+            posts.get_post(ids[0]),
+            ('title', 'content', 'user', timestamp)
+        )
 
     def test_delete_post(self):
         posts.delete_post('fake_post')

@@ -315,3 +315,8 @@ Moved all posts to root route, removed /home route
 /<author> -> /author/<author> for more clarity
 ==============================================================
 
+danielK -- 2018-10-25 03:32
+--------------------------------------------------------------
+Refactored a lot of HTML and stylized a bit
+==============================================================
+
