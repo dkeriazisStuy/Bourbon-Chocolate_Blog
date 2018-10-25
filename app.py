@@ -37,9 +37,8 @@ def blog():
     #  return render_template('search.html')
 
 
-@app.route('/edit', methods=['GET', 'POST'])
-def edit():
-    post = request.args.get('p')
+@app.route('/edit/<post>', methods=['GET', 'POST'])
+def edit(post):
     if not util.accounts.is_logged_in(session):
         return redirect('/')
     if request.method == 'GET':
@@ -61,7 +60,6 @@ def edit():
     # Get values passed via POST
     title = request.form.get('post_title')
     content = request.form.get('post_content')
-    post = request.form.get('post')
 
     if title is None:
         title = ''
@@ -69,7 +67,7 @@ def edit():
         content = ''
 
     util.posts.edit_post(post,title,content)
-    return redirect('/post?p={post}'.format(post=post))
+    return redirect('/post/{post}'.format(post=post))
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -175,13 +173,12 @@ def create():
     post = util.posts.create_post(title, content, author)
     if post is None:  # Did not properly create post
         return redirect('/create')
-    return redirect('/post?p={post}'.format(post=post))
+    return redirect('/post/{post}'.format(post=post))
 
 
-@app.route('/post')
-def post():
+@app.route('/post/<post>')
+def post(post):
     # Get values passed via GET
-    post = request.args.get('p')
     post_list = [util.posts.get_formatted_post(post)]
     return render_template(
         'post_mult.html',
