@@ -139,7 +139,7 @@ danielK -- 2018-10-19 18:42
 
 rachelN -- 2018-10-20 01:10
 --------------------------------------------------------------
-posts.py
+1. Added functions to posts.py
     - modularity:
           - NEW      now (further) modularized
                 - connect_db() -- opens the database and connects the cursor, returns db, c
@@ -159,19 +159,20 @@ posts.py
     - edit_post(id, title, content) -- if the post doesn't exist it doesn't get edited
     - main() has been deleted and all the stuff that was in it was just moved under the if statement ig
 
-t_posts.py -- now works!!
-t_posts2.py -- currently trying to make a more quantifiable driver or something like that
+2. Tested using
+   -t_posts.py -- now works!!
+   -t _posts2.py -- currently trying to make a more quantifiable driver or something like that
 ==============================================================
 
 danielK -- 2018-10-20 13:43
 --------------------------------------------------------------
-Started a proper testing suite for accounts
-Fixed import error
+1. Started a proper testing suite for accounts
+2. Fixed import error
 ==============================================================
 
 danielK -- 2018-10-21 00:26
 --------------------------------------------------------------
-Added to test suite
+1. Added to test suite
 ==============================================================
 
 karenL -- 2018-10-22 13:23
@@ -269,4 +270,10 @@ danielK -- 2018-10-25 19:41
 karenL -- 2018-10-26 09:43
 --------------------------------------------------------------
 1. Standardized devlog updates
+==============================================================
+
+karenL -- 2018-10-26 10:55
+--------------------------------------------------------------
+1. Added an edit link (depending on if the user is the owner
+of the post) on each post page.
 ==============================================================
