@@ -277,3 +277,9 @@ karenL -- 2018-10-26 10:55
 1. Added an edit link (depending on if the user is the owner
 of the post) on each post page.
 ==============================================================
+
+danielK -- 2018-10-25 10:59
+--------------------------------------------------------------
+Added minimum width for tables
+==============================================================
+
