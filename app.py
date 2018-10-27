@@ -51,7 +51,7 @@ def edit(post):
             return render_template(
                 'edit.html',
                 button_name='Edit Post',
-                post = post,
+                post=post,
                 old_post_title=title,
                 old_post_content=content,
                 author=author
