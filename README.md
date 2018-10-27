@@ -56,7 +56,6 @@ deactivate
 
 ## To-Do
 
-* Post sorting
 * Markdown
 * Searching
 
