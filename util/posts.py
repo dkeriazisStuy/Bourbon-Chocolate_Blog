@@ -98,7 +98,9 @@ def get_formatted_post(post):
     """Gets a post with proper formatting"""
     title, content, author, timestamp = get_post(post)
     content = render_post(content)
-    return post, title, content, author, timestamp
+    # Format: 'Jan 2, 2003 04:05:06'
+    time_str = time.strftime('%b %d, %Y %H:%M:%S', time.localtime(timestamp))
+    return post, title, content, author, time_str
 
 
 def get_author_posts(author):

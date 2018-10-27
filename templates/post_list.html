@@ -8,6 +8,8 @@
         &nbsp;
         <a href="/edit/{{post_id}}">(Edit)</a>
     {% endif %}
+    <br>
+    <span>{{timestamp}}</span>
     <table border="1" width="495"> <tr> <td>
         {% autoescape false %}
             {{content}}
