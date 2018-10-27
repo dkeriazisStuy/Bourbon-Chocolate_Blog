@@ -10,6 +10,7 @@ app.secret_key = util.accounts.get_salt()
 
 @app.route('/')
 def index():
+    util.sessions.clear_ret_path(session)
     ids = util.posts.get_all_posts()
     post_list = [util.posts.get_formatted_post(post_id) for post_id in ids]
     print(post_list)
@@ -29,6 +30,7 @@ def index():
 
 @app.route('/blog')
 def blog():
+    util.sessions.clear_ret_path(session)
     return render_template('blog.html')
 
 
@@ -39,6 +41,7 @@ def blog():
 
 @app.route('/edit/<post>', methods=['GET', 'POST'])
 def edit(post):
+    util.sessions.clear_ret_path(session)
     if not util.accounts.is_logged_in(session):
         return redirect('/')
     if request.method == 'GET':
@@ -141,6 +144,7 @@ def signup():
 
 @app.route('/logout')
 def logout():
+    util.sessions.clear_ret_path(session)
     util.accounts.logout_user(session)
     return redirect('/')
 
@@ -199,6 +203,7 @@ def post(post):
 
 @app.route('/author/<author>')
 def author(author):
+    util.sessions.clear_ret_path(session)
     ids = util.posts.get_author_posts(author)
     post_list = [util.posts.get_formatted_post(post_id) for post_id in ids]
     return render_template(
