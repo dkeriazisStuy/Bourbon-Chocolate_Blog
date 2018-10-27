@@ -139,7 +139,11 @@ def signup():
                 username_error=username_error
             )
         util.accounts.login_user(session, username)
-        return redirect('/')
+        ret_path = util.sessions.use_ret_path(session)
+        if ret_path is None:
+            return redirect('/')
+        else:
+            return redirect(ret_path)
 
 
 @app.route('/logout')
@@ -199,7 +203,6 @@ def post(post):
             logged_in=None
         )
 
-    
 
 @app.route('/author/<author>')
 def author(author):
