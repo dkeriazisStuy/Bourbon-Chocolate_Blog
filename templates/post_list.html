@@ -1,17 +1,17 @@
 {% for post_id, title, content, author, timestamp in posts %}
 <div>
-  <hr>
-        <h3> <a href="/post/{{post_id}}"> {{title}} </a> </h3>
-        <table border="1" width="495"> <tr> <td>
-            {% autoescape false %}
-                {{content}}
-            {% endautoescape %}
-        </td> </tr> </table>
-	{% if author == logged_in %}
-	<a href="/edit/{{post_id}}">Edit</a>
-        &nbsp;&nbsp;&nbsp;&nbsp;
-	{% endif %}
-        <a href="/author/{{author}}">{{author}}</a>
-	<br>
+    <hr>
+    <h3> <a href="/post/{{post_id}}">{{title}}</a> </h3>
+    Created by 
+    <a href="/author/{{author}}">{{author}}</a>
+    {% if author == logged_in %}
+        &nbsp;
+        <a href="/edit/{{post_id}}">(Edit)</a>
+    {% endif %}
+    <table border="1" width="495"> <tr> <td>
+        {% autoescape false %}
+            {{content}}
+        {% endautoescape %}
+    </td> </tr> </table> <br>
 </div>
 {% endfor %}
