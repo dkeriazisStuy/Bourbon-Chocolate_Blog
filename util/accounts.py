@@ -7,6 +7,7 @@ import util.config as config
 
 
 def create_table():
+    """Creates the SQLite database 'users'"""
     db, c = config.start_db()
     try:
         c.execute('''CREATE TABLE users (
@@ -21,6 +22,7 @@ def create_table():
 
 
 def user_exists(username):
+    """Returns whether user `username` exists"""
     db, c = config.start_db()
     # Check whether there is a row in 'users' where the column 'username' has
     # the value of `username`
@@ -34,14 +36,17 @@ def user_exists(username):
 
 
 def hash_pass(password, salt):
+    """Returns the hash of `password` with salt `salt`"""
     return hashlib.pbkdf2_hmac('sha512', password.encode(), salt, 100000)
 
 
 def get_salt():
+    """Returns a random salt"""
     return os.urandom(32)
 
 
 def valid_username(username):
+    """Returns whther `username` is a valid username"""
     if username is None:  # SQLite integrity check
         return False
     if len(username) > 32:  # Arbitrary length cap
@@ -55,6 +60,7 @@ def valid_username(username):
 
 
 def valid_password(password):
+    """Returns whether `password` is a valid password"""
     if password is None:  # SQLite integrity check
         return False
     if len(password) < 8:  # Arbitrary length minimum
@@ -63,6 +69,7 @@ def valid_password(password):
 
 
 def add_user(username, password):
+    """Add user `username` with password `passowrd` to database"""
     db, c = config.start_db()
     if not valid_username(username):
         return False
@@ -78,7 +85,8 @@ def add_user(username, password):
     return True
 
 
-def auth_user(username, password):  # Not yet implemented
+def auth_user(username, password):
+    """Return wihether user `username` exists with password `password`"""
     db, c = config.start_db()
     c.execute(
         'SELECT pass_hash, salt FROM users WHERE username=? LIMIT 1',
@@ -97,18 +105,22 @@ def auth_user(username, password):  # Not yet implemented
 
 
 def login_user(session, username):
+    """Add user `username` to session `session`"""
     session['user'] = username
 
 
 def is_logged_in(session):
+    """Return whether user is logged into session `session`"""
     return 'user' in session
 
 
 def logout_user(session):
+    """Log out user from session `session`"""
     del session['user']
 
 
 def get_logged_in_user(session):
+    """Return user logged into session `session`"""
     if is_logged_in(session):
         return session['user']
     else:
@@ -116,6 +128,7 @@ def get_logged_in_user(session):
 
 
 def remove_user(username):
+    """Remove user `username` from database"""
     db, c = config.start_db()
     c.execute(
         'DELETE FROM users WHERE username=?',
