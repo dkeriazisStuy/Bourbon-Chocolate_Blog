@@ -1,6 +1,7 @@
 from flask import Flask, request, render_template, session, redirect, flash
 import util.accounts
 import util.posts
+import util.sessions
 import base64
 
 app = Flask(__name__)
@@ -81,10 +82,8 @@ def login():
     username = request.form.get('username')
     password = request.form.get('password')
 
-    if 'ret_path' in session:
-        ret_path = session['ret_path']
-        del session['ret_path']
-    else:
+    ret_path = util.sessions.use_ret_path(session)
+    if ret_path is None:
         ret_path = '/'
 
     if util.accounts.auth_user(username, password):
@@ -156,7 +155,7 @@ def create():
             )
         else:
             # Set return path back here
-            session['ret_path'] = '/create'
+            util.sessions.set_ret_path(session, '/create')
             return redirect('/login')
 
     # Get values passed via POST
