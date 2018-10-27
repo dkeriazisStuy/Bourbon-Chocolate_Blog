@@ -106,7 +106,12 @@ def get_formatted_post(post):
 def get_author_posts(author):
     """Returns ids of all posts by an author"""
     db, c = util.config.start_db()
-    c.execute("SELECT id FROM posts WHERE author = ?", (author,))
+    c.execute('''
+        SELECT id
+        FROM posts
+        WHERE author = ?
+        ORDER BY time DESC
+        ''', (author,))
     result = c.fetchall()
     util.config.end_db(db)
     ids = [i[0] for i in result]
@@ -117,7 +122,7 @@ def get_author_posts(author):
 def get_all_posts():
     """Returns ids of all posts"""
     db, c = util.config.start_db()
-    c.execute("SELECT id FROM posts")
+    c.execute("SELECT id FROM posts ORDER BY time DESC")
     result = c.fetchall()
     util.config.end_db(db)
     ids = [i[0] for i in result]
