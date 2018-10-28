@@ -29,7 +29,7 @@ $source my_folder/bin/activate
 
 Windows:
 ```
-C:\ my_folder\script\activate
+> \path\to\env\Scripts\activate
 ```
 
 ### Clone the repository
@@ -38,20 +38,26 @@ git clone https://github.com/dkeriazisStuy/Bourbon-Chocolate_Blog.git
 ```
 
 ### Run app.py from within the repository
-Linux and Mac:
 ```
 python3 app.py
 ```
-
-Windows:
-```
-py -3 app.py
-```
+### Check out our website
+Go to localhost:5000 on the web browser of your choice
 
 ## Close
 Deactivate your virtual environment
 ```
 deactivate
+```
+
+## Modules of note
+### unittest
+This module provides a framework for constructing and running tests.
+We deemed it necessary to maintain functional code as teammates made changes and as well as to guarantee our users a working project.
+Teammates run/add to the the test suite to ensure additions to the code work. 
+Our test suite can be run via the following command in the terminal:
+```
+python tests.py
 ```
 
 ## To-Do
