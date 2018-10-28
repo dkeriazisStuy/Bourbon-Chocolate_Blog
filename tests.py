@@ -4,6 +4,7 @@ import time
 import util.config as config
 import util.accounts as accounts
 import util.posts as posts
+import util.search as search
 
 config.use_test_db()  # Use a test database
 
@@ -96,6 +97,65 @@ class TestPosts(unittest.TestCase):
         posts.create_post('title', 'content', 'anon')
         posts.edit_post('ads1', 'hi','bye')
         posts.edit_post('oops', 'hi','bye')
+
+
+class TestFuzzyFind(unittest.TestCase):
+    def test_blank(self):
+        self.assertEqual(search.score('', ''), 0)
+
+    def test_match(self):
+        score = search.MATCH_BONUS
+        self.assertEqual(search.score('abc', 'b'), score)
+
+    def test_match_multiple_letters(self):
+        score = 2 * search.MATCH_BONUS + search.gap_bonus(1)
+        self.assertEqual(search.score('abcde', 'bc'), score)
+
+    def test_first_letter_mismatch(self):
+        self.assertEqual(search.score('bcde', 'abc'), 0)
+
+    def test_second_letter_mismatch(self):
+        self.assertEqual(search.score('acde', 'abc'), 0)
+
+    def test_beginning_bonus(self):
+        score = search.WORD_BONUS + search.MATCH_BONUS
+        self.assertEqual(search.score('b', 'b'), score)
+
+    def test_word_bonus(self):
+        score = search.WORD_BONUS + search.MATCH_BONUS
+        self.assertEqual(search.score('foo bar', 'b'), score)
+
+    def test_beginning_bonus_more_text(self):
+        score = search.WORD_BONUS + search.MATCH_BONUS
+        self.assertEqual(search.score('bar', 'b'), score)
+
+    def test_match_multiple_letters_with_beginning_bonus(self):
+        score = search.WORD_BONUS \
+                + 2 * search.MATCH_BONUS \
+                + search.gap_bonus(1)
+        self.assertEqual(search.score('bcde', 'bc'), score)
+
+    def test_one_small_gap(self):
+        score = 2 * search.MATCH_BONUS + search.gap_bonus(2)
+        self.assertEqual(search.score('abcdefg', 'bd'), score)
+
+    def test_one_small_gap_with_word_bonus(self):
+        score = search.WORD_BONUS \
+                + 2 * search.MATCH_BONUS \
+                + search.gap_bonus(2)
+        self.assertEqual(search.score('ab defg', 'bd'), score)
+
+    def test_one_small_gap_with_two_word_bonuses(self):
+        score = 2 * search.WORD_BONUS \
+                + 2 * search.MATCH_BONUS \
+                + search.gap_bonus(2)
+        self.assertEqual(search.score('b defg', 'bd'), score)
+
+    def test_weight_consecutive_more_than_acronym(self):
+        self.assertGreater(
+            search.score('cab', 'ab'),
+            search.score('c a b', 'ab')
+        )
 
 
 if __name__ == '__main__':

@@ -2,6 +2,7 @@ from flask import Flask, request, render_template, session, redirect, flash
 import util.accounts
 import util.posts
 import util.sessions
+import util.search
 import base64
 
 app = Flask(__name__)
@@ -34,9 +35,45 @@ def blog():
     return render_template('blog.html')
 
 
-#  @app.route('/search')
-#  def search():
-    #  return render_template('search.html')
+@app.route('/search')
+def search():
+    util.sessions.clear_ret_path(session)
+    ids = util.posts.get_all_posts()
+
+    if 'q' not in request.args:
+        query = ''
+    else:
+        query = request.args.get('q')
+
+    scored_tuples = []
+    for post in ids:
+        _, content, _, _ = util.posts.get_post(post)
+        score = util.search.score(content, query)
+        if score > 2 * len(query):
+            scored_tuples.append((score, post))
+
+    def get_first(element):
+        return element[0]
+
+    ranked_tuples = sorted(scored_tuples, key=get_first, reverse=True)
+    if len(ranked_tuples) > 0:
+        high_score = ranked_tuples[0][0]
+    else:
+        high_score = 0
+
+    filtered_tuples = []
+    for score, post in ranked_tuples:
+        if score >= 0.8 * high_score:
+            filtered_tuples.append((score, post))
+
+    post_list = [
+        util.posts.get_formatted_post(post) for _, post in filtered_tuples
+    ]
+    return render_template(
+        'search.html',
+        posts=post_list,
+        logged_in=util.accounts.get_logged_in_user(session)
+    )
 
 
 @app.route('/edit/<post>', methods=['GET', 'POST'])
