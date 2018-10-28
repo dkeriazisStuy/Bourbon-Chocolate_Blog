@@ -32,6 +32,7 @@ karenL -- 2018-10-16 23:40
 
 rachelN -- 2018-10-16 23:44
 --------------------------------------------------------------
+(Team response to reading)
 1. We should attempt to maintain backwards compatibility between updates.
 2. We will attempt to do this by practicing semantic versioning (https://semver.org/).
 3. We will also set standards for our code to make it as easy as possible to work with as a team.
@@ -190,14 +191,14 @@ danielK -- 2018-10-22 14:25
 
 rachelN -- 2018-10-22 23:05
 --------------------------------------------------------------
-1.Added get_title(id)
+1. Added get_title(id)
 2. Implemented titles
 ==============================================================
 
 karenL -- 2018-10-22 23:53
 --------------------------------------------------------------
 1. Replaced create.html with template that does not use CSS.
-2. Minor edits to templates
+2. Minor edits to templates for user convenience
 ==============================================================
 
 karenL -- 2018-10-23 00:27
@@ -280,6 +281,6 @@ of the post) on each post page.
 
 danielK -- 2018-10-26 10:59
 --------------------------------------------------------------
-Added minimum width for tables
+1. Added minimum width for tables
 ==============================================================
 
