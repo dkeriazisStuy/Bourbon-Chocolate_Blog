@@ -51,7 +51,7 @@ deactivate
 ```
 
 ## Modules of note
-### unittest
+### [unittest](https://docs.python.org/3/library/unittest.html)
 This module provides a framework for constructing and running tests.
 We deemed it necessary to maintain functional code as teammates made changes and as well as to guarantee our users a working project.
 Teammates run/add to the the test suite to ensure additions to the code work. 
@@ -59,9 +59,4 @@ Our test suite can be run via the following command in the terminal:
 ```
 python tests.py
 ```
-
-## To-Do
-
-* Markdown
-* Searching
 
