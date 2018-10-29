@@ -72,6 +72,8 @@ def search():
     return render_template(
         'search.html',
         posts=post_list,
+        query=query,
+        result_count=len(post_list),
         logged_in=util.accounts.get_logged_in_user(session)
     )
 

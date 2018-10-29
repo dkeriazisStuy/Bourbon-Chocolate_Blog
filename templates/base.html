@@ -1,51 +1,43 @@
 <!DOCTYPE html>
-<head>
-  
-  {% block head %}
-  
-  <title> {% block title %} {% endblock %}
-    | Bourbon Chocolate
-  </title>
-  
-  {% endblock %}
+<html>
+    <head>
+        {% block head %}
+        <title> {% block title %} {% endblock %}
+            | Bourbon Chocolate
+        </title>
+        {% endblock %}
+    </head>
 
-</head>
+    <body>
+        <header>
+            {% block navbar %}
+            <div align="left">
+                <h1>Blog</h1>
+                <a href = "/"> Homepage</a>
+                &nbsp;
+                <a href = "/create"> Create a Post</a>
+            </div>
 
-<body>
-
-  <header>
-    {% block navbar %}
-    
-    <h1>Blog</h1>
-
-    <a href = "/"> Homepage</a>
-    &nbsp;
-    <a href = "/create"> Create a Post</a>
-    
-    {% endblock %}
-  </header>
-  
-  <hr>
-  
-  <section>
-    <br>
-
-    {% block content %}
-
-    {% endblock %}
-
-  </section>
-
-  <footer>
-    <br>
-    <hr>
-
-    {% block footer %}
-      <small>&copy; Copyright 2018 Bourbon Chocolate</small>
-    {% endblock %}
-
-  </footer>
-
-</body>
-
+            <div align="right">
+                <form action="/search" method="get" accept-charset="utf-8">
+                    <input type="text" name="q" id="q" value="{{query}}" />
+                    <input type="submit" name="sub" id="sub" value="Search" />
+                </form>
+            </div>
+            {% endblock %}
+        </header>
+        <hr>
+        <section>
+            <br>
+            {% block content %}
+            {% endblock %}
+        </section>
+        <footer>
+            <br>
+            <hr>
+            {% block footer %}
+            <small>&copy; Copyright 2018 Bourbon Chocolate</small>
+            {% endblock %}
+        </footer>
+    </body>
 </html>
