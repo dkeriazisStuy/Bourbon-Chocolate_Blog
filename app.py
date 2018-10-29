@@ -29,12 +29,6 @@ def index():
         )
 
 
-@app.route('/blog')
-def blog():
-    util.sessions.clear_ret_path(session)
-    return render_template('blog.html')
-
-
 @app.route('/search')
 def search():
     util.sessions.clear_ret_path(session)
