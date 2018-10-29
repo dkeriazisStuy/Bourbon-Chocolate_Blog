@@ -196,7 +196,7 @@ def create():
     if request.method == 'GET':
         if util.accounts.is_logged_in(session):
             return render_template(
-                'create_v1.html',
+                'create.html',
                 button_name='Create Post'
             )
         else:
