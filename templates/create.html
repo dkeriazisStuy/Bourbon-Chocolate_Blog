@@ -1,17 +1,16 @@
 {% extends "base.html" %}
 
 {% block title %}
-{{title}}
+Create Post
 {% endblock %}
 
 {% block content %}
     <form action="/create" method = "POST">
-    Title: <br>
-    <input type="text" name="title">
-    <br> Post Content: <br>
+        Title: <br>
+        <input type="text" name="title">
+        <br> Post Content: <br>
 
-    <textarea name="content" rows="10" cols="50">{{old_post}}</textarea>
-        <br>
-        <button type="submit">{{button_name}}</button>
+        <textarea name="content" rows="10" cols="50"></textarea> <br>
+        <button type="submit">Create Post</button>
     </form>
 {% endblock %}

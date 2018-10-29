@@ -14,6 +14,11 @@ def gap_bonus(n):
     return 20 / n
 
 
+def immediacy_bonus(n):
+    """A bonus for how early in the text the first match is found"""
+    return 2 / (n + 1)
+
+
 def smart_case(text, pattern):
     """Return """
     for p in pattern:
@@ -46,6 +51,10 @@ def score(text, pattern):
         # Gap bonus
         if last_index is not None:
             num += gap_bonus(i - last_index)
+
+        # Immediacy bonus
+        if last_index is None:
+            num += immediacy_bonus(i)
 
         # Increment pattern
         last_index = i

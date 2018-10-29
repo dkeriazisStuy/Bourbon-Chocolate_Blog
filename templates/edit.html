@@ -1,18 +1,20 @@
 {% extends "base.html" %}
 
 {% block title %}
-{{title}}
+Edit Post - {{old_post_title}}
 {% endblock %}
 
 {% block content %}
-   <form action="/edit/{{post}}" method = "POST">
+   <form action="/edit/{{post}}" method="POST">
+      Title: <br>
+      <input type="text" name="post_title" value="{{old_post_title}}">
+      <br> Post Content: <br>
 
-    Title: <br>
-    <input type="text" name="post_title" value="{{old_post_title}}">
-    <br> Post Content: <br>
-
-    <textarea name="post_content" rows="10" cols="50" >{% block old_post_content %}{{old_post_content}}{% endblock %}</textarea>
-        <br>
-        <button type="submit">{{button_name}}</button>
-    </form>
+      <textarea name="post_content" rows="10" cols="50">{{old_post_content}}</textarea>
+      <br>
+      <button type="submit">Edit Post</button>
+   </form>
+   <form action="/delete/{{post}}">
+      <button type="submit">Delete Post</button>
+   </form>
 {% endblock %}

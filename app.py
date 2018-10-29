@@ -47,8 +47,10 @@ def search():
 
     scored_tuples = []
     for post in ids:
-        _, content, _, _ = util.posts.get_post(post)
-        score = util.search.score(content, query)
+        title, content, _, _ = util.posts.get_post(post)
+        content_score = util.search.score(content, query)
+        title_score = util.search.score(title, query)
+        score = title_score + content_score
         if score > 2 * len(query):
             scored_tuples.append((score, post))
 
@@ -56,6 +58,7 @@ def search():
         return element[0]
 
     ranked_tuples = sorted(scored_tuples, key=get_first, reverse=True)
+    #  print(ranked_tuples)
     if len(ranked_tuples) > 0:
         high_score = ranked_tuples[0][0]
     else:
@@ -63,7 +66,7 @@ def search():
 
     filtered_tuples = []
     for score, post in ranked_tuples:
-        if score >= 0.8 * high_score:
+        if score >= 0.4 * high_score:
             filtered_tuples.append((score, post))
 
     post_list = [
@@ -196,8 +199,7 @@ def create():
     if request.method == 'GET':
         if util.accounts.is_logged_in(session):
             return render_template(
-                'create.html',
-                button_name='Create Post'
+                'create.html'
             )
         else:
             # Set return path back here
@@ -252,6 +254,19 @@ def author(author):
         posts=post_list,
         logged_in=util.accounts.get_logged_in_user(session)
     )
+
+
+@app.route('/delete/<post>')
+def delete(post):
+    util.sessions.clear_ret_path(session)
+    result = util.posts.get_post(post)
+    if result is None:
+        return redirect('/')
+
+    _, _, author, _ = result
+    if util.accounts.get_logged_in_user(session) == author:
+        util.posts.delete_post(post)
+    return redirect('/')
 
 
 if __name__ == '__main__':
