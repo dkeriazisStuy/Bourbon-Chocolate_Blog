@@ -14,7 +14,7 @@ def index():
     util.sessions.clear_ret_path(session)
     ids = util.posts.get_all_posts()
     post_list = [util.posts.get_formatted_post(post_id) for post_id in ids]
-    print(post_list)
+    #print(post_list)
     if util.accounts.is_logged_in(session):
         return render_template(
             'index_user.html',
