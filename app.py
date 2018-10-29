@@ -226,20 +226,22 @@ def create():
 def post(post):
     post_list = [util.posts.get_formatted_post(post)]
     title, _, author, _ = util.posts.get_post(post)
+    page_title = '{title} - {author}'.format(
+        title=title,
+        author=author
+    )
     if util.accounts.is_logged_in(session):
         return render_template(
             'post_mult.html',
             posts=post_list,
-            title=title,
-            author=author,
+            page_title=page_title,
             logged_in=util.accounts.get_logged_in_user(session)
         )
     else:
         return render_template(
             'post_mult.html',
             posts=post_list,
-            title=title,
-            author=author,
+            page_title=page_title,
             logged_in=None
         )
 
@@ -252,6 +254,7 @@ def author(author):
     return render_template(
         'post_mult.html',
         posts=post_list,
+        page_title=author,
         logged_in=util.accounts.get_logged_in_user(session)
     )
 
