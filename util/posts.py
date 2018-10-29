@@ -4,6 +4,7 @@ import time
 import util.config
 
 
+# prints all posts
 def get_db():
     """Prints all rows in posts"""
     db, c = util.config.start_db()
@@ -12,6 +13,7 @@ def get_db():
     util.config.end_db(db)
 
 
+# makes table 'posts' if it doesn't exist
 def create_table():
     """Makes 'posts' table in data.db"""
     db, c = util.config.start_db()
@@ -25,11 +27,12 @@ def create_table():
                 time INT NOT NULL
             )'''
         )
-    except sqlite3.OperationalError:  # Table already exists
+    except sqlite3.OperationalError:  # if table already exists
         pass
     util.config.end_db(db)
 
 
+# returns a random post id
 def get_post_id():
     """Returns a random post id"""
     id_length = 16
@@ -38,6 +41,7 @@ def get_post_id():
     )
 
 
+# post exists t/f
 def post_exists(post):
     """Returns whether a post exists"""
     db, c = util.config.start_db()
@@ -46,11 +50,11 @@ def post_exists(post):
         (post,)
     )
     result = c.fetchone()[0]
-    # print (post + " exists? " + str(result == 1))
     util.config.end_db(db)
     return result == 1
 
 
+# author exists t/f
 def author_exists(author):
     """Returns whether an author exists"""
     db, c = util.config.start_db()
@@ -59,11 +63,11 @@ def author_exists(author):
         (author,)
     )
     result = c.fetchone()[0]
-    # print (id + " exists? " + str(result == 1))
     util.config.end_db(db)
     return result == 1
 
 
+# adds a post to 'posts'
 def create_post(title, content, author):
     """Adds (creates) a post to 'posts'"""
     post = get_post_id()
@@ -82,6 +86,7 @@ def create_post(title, content, author):
     return post
 
 
+# gets a post using it's id 
 def get_post(post):
     """Gets a post from 'posts'"""
     db, c = util.config.start_db()
@@ -94,6 +99,7 @@ def get_post(post):
     return result
 
 
+# gets formatted version of a post using it's id
 def get_formatted_post(post):
     """Gets a post with proper formatting"""
     title, content, author, timestamp = get_post(post)
@@ -103,6 +109,7 @@ def get_formatted_post(post):
     return post, title, content, author, time_str
 
 
+# gets all of an author's posts
 def get_author_posts(author):
     """Returns ids of all posts by an author"""
     db, c = util.config.start_db()
@@ -119,6 +126,7 @@ def get_author_posts(author):
     return ids
 
 
+# gets all posts from 'posts'
 def get_all_posts():
     """Returns ids of all posts"""
     db, c = util.config.start_db()
@@ -129,6 +137,7 @@ def get_all_posts():
     return ids
 
 
+# deletes a post using it's id 
 def delete_post(post):
     """Deletes a post from 'posts'"""
     if post_exists(post): # if the post exists, delete it
@@ -142,6 +151,7 @@ def delete_post(post):
         return False
 
 
+# edits a post 
 def edit_post(post, title, content):
     """Edits a post from 'posts'"""
     if post is None or title is None or content is None:
@@ -153,14 +163,12 @@ def edit_post(post, title, content):
             (title, content, post)
         )
         util.config.end_db(db)
-        # see that it runs, comment out later
-        #  print("edited: " + post + "\t" + title + "\t" + content)
         return True
-    else: # if the post doesn't exist
-        #  print(":P post " + post + " doesn't exist")
+    else:
         return False
 
 
+# formats content of a post for html 
 def render_post(content):
     """Formats post content from raw text to html"""
     replacements = (

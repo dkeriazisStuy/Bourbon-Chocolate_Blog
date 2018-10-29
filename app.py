@@ -83,7 +83,6 @@ def edit(post):
         return redirect('/')
     if request.method == 'GET':
         title, content, author, _ = util.posts.get_post(post)
-        # content = util.posts.render_post(content)
         if util.accounts.get_logged_in_user(session) == author:
             return render_template(
                 'edit.html',
